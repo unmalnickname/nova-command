@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command - Secrets &amp; Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "card-dark": "#1a2130",
+                        "border-dark": "#2d3648",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .secrets-mask {
+            letter-spacing: 0.25em;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark px-8 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl">deployed_code</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Nova Command</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Agents</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Clusters</a>
+<a class="text-primary dark:text-white text-sm font-bold border-b-2 border-primary pb-1" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="bg-slate-100 dark:bg-card-dark border-none rounded-lg pl-10 pr-4 py-2 text-sm w-64 focus:ring-1 focus:ring-primary" placeholder="Search secrets..." type="text"/>
+</div>
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-card-dark text-slate-500 dark:text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-xs font-bold text-white shadow-lg" data-alt="User profile avatar placeholder">
+                JD
+            </div>
+</div>
+</header>
+<div class="flex min-h-[calc(100-64px)]">
+<!-- Sidebar Sub-navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-border-dark p-6 flex flex-col gap-2">
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-2 px-3">Platform Configuration</p>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-card-dark transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">General</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-card-dark transition-all" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="text-sm font-medium">Integrations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-card-dark transition-all" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="text-sm font-medium">Security</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:text-white font-semibold" href="#">
+<span class="material-symbols-outlined text-primary">key</span>
+<span class="text-sm">API Keys &amp; Secrets</span>
+</a>
+<div class="mt-auto p-4 rounded-xl bg-slate-100 dark:bg-card-dark border border-slate-200 dark:border-border-dark">
+<p class="text-xs font-bold mb-1">Security Score</p>
+<div class="w-full bg-slate-200 dark:bg-border-dark h-1.5 rounded-full overflow-hidden mb-2">
+<div class="bg-primary h-full w-[85%]"></div>
+</div>
+<p class="text-[10px] text-slate-500">85% - Advanced security enabled</p>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-5xl mx-auto">
+<!-- Doppler Secrets Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary fill-1">shield_lock</span>
+<h1 class="text-3xl font-black tracking-tight dark:text-white">Doppler Secrets Management</h1>
+</div>
+<p class="text-slate-500 dark:text-slate-400 max-w-lg">Securely synced environment variables for your AI agent clusters. Updates are propagated in real-time.</p>
+</div>
+<button class="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">sync</span>
+                        Sync with Doppler
+                    </button>
+</div>
+<!-- Secrets Table Container -->
+<div class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-xl overflow-hidden mb-12 shadow-sm">
+<div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-3 border-b border-slate-200 dark:border-border-dark flex justify-between items-center">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Environment Secrets</span>
+<span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500 text-[10px] font-bold uppercase tracking-widest border border-emerald-500/20">Synced</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="border-b border-slate-200 dark:border-border-dark">
+<th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Key Name</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Value</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-border-dark">
+<tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4 font-mono text-sm text-slate-700 dark:text-slate-300">OPENAI_API_KEY</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-slate-400 secrets-mask">••••••••••••••••</span>
+<span class="material-symbols-outlined text-xs text-slate-500">lock</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 rounded bg-slate-100 dark:bg-border-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+<button class="p-1.5 rounded bg-slate-100 dark:bg-border-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4 font-mono text-sm text-slate-700 dark:text-slate-300">CONVEX_DEPLOY_KEY</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-slate-400 secrets-mask">••••••••••••••••</span>
+<span class="material-symbols-outlined text-xs text-slate-500">lock</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 rounded bg-slate-100 dark:bg-border-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+<button class="p-1.5 rounded bg-slate-100 dark:bg-border-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4 font-mono text-sm text-slate-700 dark:text-slate-300">LIVEKIT_API_SECRET</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-slate-400 secrets-mask">••••••••••••••••</span>
+<span class="material-symbols-outlined text-xs text-slate-500">lock</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 rounded bg-slate-100 dark:bg-border-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+<button class="p-1.5 rounded bg-slate-100 dark:bg-border-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Integrations Grid -->
+<div>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-emerald-500">power</span>
+<h2 class="text-2xl font-bold dark:text-white tracking-tight">Connected Platforms</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Integration Card 1 -->
+<div class="p-5 bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-xl shadow-sm hover:border-primary transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="size-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">waves</span>
+</div>
+<span class="flex items-center gap-1 text-[10px] font-black uppercase tracking-tighter text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+<span class="size-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Active
+                                </span>
+</div>
+<h3 class="font-bold dark:text-white mb-1">LiveKit</h3>
+<p class="text-xs text-slate-500 mb-4">Real-time video &amp; audio agent communication layer.</p>
+<a class="text-sm font-bold text-primary group-hover:underline flex items-center gap-1" href="#">
+                                Manage <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Integration Card 2 -->
+<div class="p-5 bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-xl shadow-sm hover:border-primary transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="size-10 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">database</span>
+</div>
+<span class="flex items-center gap-1 text-[10px] font-black uppercase tracking-tighter text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+<span class="size-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Active
+                                </span>
+</div>
+<h3 class="font-bold dark:text-white mb-1">Convex</h3>
+<p class="text-xs text-slate-500 mb-4">Real-time database and cloud functions for agent memory.</p>
+<a class="text-sm font-bold text-primary group-hover:underline flex items-center gap-1" href="#">
+                                Manage <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Integration Card 3 -->
+<div class="p-5 bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-xl shadow-sm hover:border-primary transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="size-10 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">token</span>
+</div>
+<span class="flex items-center gap-1 text-[10px] font-black uppercase tracking-tighter text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+<span class="size-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Active
+                                </span>
+</div>
+<h3 class="font-bold dark:text-white mb-1">OpenClaw</h3>
+<p class="text-xs text-slate-500 mb-4">Agent orchestration and task scheduling framework.</p>
+<a class="text-sm font-bold text-primary group-hover:underline flex items-center gap-1" href="#">
+                                Manage <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Add Integration Card -->
+<div class="p-5 border-2 border-dashed border-slate-200 dark:border-border-dark rounded-xl flex flex-col items-center justify-center text-center hover:border-primary hover:bg-primary/5 transition-all cursor-pointer group">
+<div class="size-10 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center mb-3 group-hover:border-primary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add</span>
+</div>
+<span class="text-sm font-bold text-slate-500 dark:text-slate-400 group-hover:text-primary transition-colors">Add Integration</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Notification Toast (Example for Copy) -->
+<div class="fixed bottom-8 right-8 bg-slate-900 text-white px-5 py-3 rounded-lg shadow-2xl flex items-center gap-3 border border-white/10 z-[60] pointer-events-none opacity-0 translate-y-4">
+<span class="material-symbols-outlined text-emerald-400">check_circle</span>
+<span class="text-sm font-medium">API key copied to clipboard</span>
+</div>
+</body></html>

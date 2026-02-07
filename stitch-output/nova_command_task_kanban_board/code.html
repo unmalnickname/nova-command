@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command - Task Kanban Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111318",
+                        "surface-dark": "#1a1d23",
+                        "border-dark": "#282e39",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Space Grotesk", "sans-serif"], 
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for horizontal scrolling */
+        .kanban-scroll::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .kanban-scroll::-webkit-scrollbar-track {
+            background: #111318;
+        }
+        .kanban-scroll::-webkit-scrollbar-thumb {
+            background: #282e39;
+            border-radius: 4px;
+        }
+        .kanban-scroll::-webkit-scrollbar-thumb:hover {
+            background: #3f4756;
+        }
+        body {
+            font-family: "Space Grotesk", "Noto Sans", sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-hidden">
+<div class="relative flex h-screen w-full bg-background-light dark:bg-background-dark overflow-hidden">
+<!-- Sidebar -->
+<div class="hidden lg:flex w-64 flex-col border-r border-border-dark bg-[#111318] flex-shrink-0">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex gap-3 items-center mb-4">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 bg-primary/20 flex items-center justify-center text-primary" data-alt="Nova Command Logo placeholder">
+<span class="material-symbols-outlined">dataset</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-normal">Nova Command</h1>
+<p class="text-[#9da6b9] text-xs font-normal leading-normal">v2.4.0</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#9da6b9] hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#282e39] text-white" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">view_kanban</span>
+<p class="text-sm font-medium leading-normal">Operations</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#9da6b9] hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">smart_toy</span>
+<p class="text-sm font-medium leading-normal">Agents</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#9da6b9] hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">database</span>
+<p class="text-sm font-medium leading-normal">Data</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#9da6b9] hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-border-dark">
+<div class="flex items-center gap-3 px-3 py-2">
+<div class="size-8 rounded-full bg-gradient-to-tr from-primary to-blue-400" data-alt="User Avatar Gradient"></div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-medium">Cmdr. Shepard</p>
+<p class="text-[#9da6b9] text-xs">Admin</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<div class="flex flex-1 flex-col h-full overflow-hidden relative">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark px-6 py-3 bg-[#111318] z-10">
+<div class="flex items-center gap-4">
+<!-- Breadcrumbs -->
+<div class="hidden md:flex flex-wrap gap-2 items-center">
+<a class="text-[#9da6b9] text-sm font-medium hover:text-white" href="#">Nova Command</a>
+<span class="material-symbols-outlined text-[#9da6b9] text-sm">chevron_right</span>
+<a class="text-[#9da6b9] text-sm font-medium hover:text-white" href="#">Operations</a>
+<span class="material-symbols-outlined text-[#9da6b9] text-sm">chevron_right</span>
+<span class="text-white text-sm font-medium">Project Alpha</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-[#9da6b9]" style="font-size: 20px;">search</span>
+</div>
+<input class="block w-full rounded-lg bg-[#282e39] border-none py-2 pl-10 pr-3 text-sm text-white placeholder-[#9da6b9] focus:ring-1 focus:ring-primary" placeholder="Search tasks..." type="text"/>
+</div>
+<button class="relative p-2 text-[#9da6b9] hover:text-white hover:bg-[#282e39] rounded-lg transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">notifications</span>
+<span class="absolute top-2 right-2 size-2 rounded-full bg-primary border-2 border-[#111318]"></span>
+</button>
+</div>
+</header>
+<!-- Project Header & Filters -->
+<div class="flex flex-col gap-4 p-6 bg-[#111318] border-b border-border-dark shrink-0">
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-1">
+<h2 class="text-white text-3xl font-bold tracking-tight">Project: Deep Space Analytics</h2>
+<div class="flex items-center gap-2 text-[#9da6b9] text-sm">
+<span class="material-symbols-outlined" style="font-size: 16px;">hub</span>
+<span>Orchestrating 4 Agents</span>
+<span class="mx-1">•</span>
+<span class="text-green-400">System Nominal</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex -space-x-2">
+<div class="size-8 rounded-full border-2 border-[#111318] bg-[#282e39] flex items-center justify-center text-xs text-white z-30" title="Agent Omni">AO</div>
+<div class="size-8 rounded-full border-2 border-[#111318] bg-[#282e39] flex items-center justify-center text-xs text-white z-20" title="Data Miner">DM</div>
+<div class="size-8 rounded-full border-2 border-[#111318] bg-[#282e39] flex items-center justify-center text-xs text-white z-10" title="Review Bot">RB</div>
+<div class="size-8 rounded-full border-2 border-[#111318] bg-[#282e39] flex items-center justify-center text-xs text-[#9da6b9] z-0">+1</div>
+</div>
+<button class="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-blue-600 transition-colors shadow-[0_0_15px_rgba(19,91,236,0.3)]">
+<span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+                        Add Task
+                    </button>
+</div>
+</div>
+<!-- Filters Toolbar -->
+<div class="flex flex-wrap items-center justify-between gap-3 mt-2">
+<div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#282e39] border border-transparent hover:border-[#9da6b9]/30 cursor-pointer transition-colors group">
+<span class="material-symbols-outlined text-[#9da6b9] group-hover:text-white" style="font-size: 18px;">filter_list</span>
+<span class="text-sm text-[#9da6b9] group-hover:text-white font-medium">Filter</span>
+</div>
+<select class="bg-transparent border border-[#282e39] text-[#9da6b9] text-sm rounded-lg focus:ring-primary focus:border-primary block p-1.5 hover:bg-[#282e39] transition-colors cursor-pointer">
+<option>All Agents</option>
+<option>Agent Omni</option>
+<option>Data Miner</option>
+</select>
+<select class="bg-transparent border border-[#282e39] text-[#9da6b9] text-sm rounded-lg focus:ring-primary focus:border-primary block p-1.5 hover:bg-[#282e39] transition-colors cursor-pointer">
+<option>Priority: Any</option>
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+<div class="h-6 w-px bg-[#282e39] mx-1"></div>
+<div class="flex bg-[#282e39] rounded-lg p-0.5">
+<button class="p-1 rounded bg-[#111318] text-white shadow-sm">
+<span class="material-symbols-outlined block" style="font-size: 18px;">view_kanban</span>
+</button>
+<button class="p-1 rounded text-[#9da6b9] hover:text-white hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined block" style="font-size: 18px;">table_rows</span>
+</button>
+</div>
+</div>
+<div class="text-[#9da6b9] text-xs font-mono">
+                    Last sync: 2m ago
+                </div>
+</div>
+</div>
+<!-- Kanban Board Area -->
+<main class="flex-1 overflow-x-auto overflow-y-hidden bg-[#0f1115] kanban-scroll p-6">
+<div class="flex h-full gap-6 min-w-[1200px]">
+<!-- Column: Backlog -->
+<div class="flex w-80 flex-col shrink-0">
+<div class="mb-3 flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-slate-500"></div>
+<h3 class="font-bold text-white tracking-wide text-sm">BACKLOG</h3>
+<span class="rounded bg-[#282e39] px-1.5 py-0.5 text-xs text-[#9da6b9] font-mono">4</span>
+</div>
+<button class="text-[#9da6b9] hover:text-white">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+</button>
+</div>
+<div class="flex flex-1 flex-col gap-3 overflow-y-auto pr-2 kanban-scroll rounded-xl bg-white/[0.02] p-2 border border-white/[0.05]">
+<!-- Card -->
+<div class="group relative flex cursor-grab flex-col gap-3 rounded-lg border border-[#333] bg-[#1a1d23] p-4 hover:border-primary/50 hover:shadow-[0_4px_20px_-5px_rgba(0,0,0,0.5)] transition-all">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-mono text-[#9da6b9]">#TSK-109</span>
+<span class="material-symbols-outlined text-[#9da6b9]/40 cursor-grab" style="font-size: 16px;">drag_indicator</span>
+</div>
+<p class="font-medium text-white text-sm leading-snug">Define data schema for sector 7 logs</p>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#9da6b9]" style="font-size: 16px;">person</span>
+</div>
+<div class="rounded bg-[#282e39] px-2 py-0.5 text-[10px] font-medium text-[#9da6b9]">Low</div>
+</div>
+</div>
+<!-- Card -->
+<div class="group relative flex cursor-grab flex-col gap-3 rounded-lg border border-[#333] bg-[#1a1d23] p-4 hover:border-primary/50 hover:shadow-[0_4px_20px_-5px_rgba(0,0,0,0.5)] transition-all">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-mono text-[#9da6b9]">#TSK-112</span>
+<span class="material-symbols-outlined text-[#9da6b9]/40 cursor-grab" style="font-size: 16px;">drag_indicator</span>
+</div>
+<p class="font-medium text-white text-sm leading-snug">Update security protocols for Agent-09</p>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#9da6b9]" style="font-size: 16px;">person</span>
+</div>
+<div class="rounded bg-[#282e39] px-2 py-0.5 text-[10px] font-medium text-[#9da6b9]">Med</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: In Progress -->
+<div class="flex w-80 flex-col shrink-0">
+<div class="mb-3 flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-blue-400"></div>
+<h3 class="font-bold text-white tracking-wide text-sm">IN PROGRESS</h3>
+<span class="rounded bg-[#282e39] px-1.5 py-0.5 text-xs text-[#9da6b9] font-mono">2</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-3 overflow-y-auto pr-2 kanban-scroll rounded-xl bg-white/[0.02] p-2 border border-white/[0.05]">
+<!-- Card -->
+<div class="group relative flex cursor-grab flex-col gap-3 rounded-lg border border-[#333] bg-[#1a1d23] p-4 hover:border-primary/50 hover:shadow-[0_4px_20px_-5px_rgba(0,0,0,0.5)] transition-all">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-mono text-[#9da6b9]">#TSK-105</span>
+<span class="material-symbols-outlined text-[#9da6b9]/40 cursor-grab" style="font-size: 16px;">drag_indicator</span>
+</div>
+<p class="font-medium text-white text-sm leading-snug">Manual review of anomaly detection patterns</p>
+<div class="flex gap-2 flex-wrap">
+<span class="text-[10px] bg-blue-500/10 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/20">Audit</span>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2">
+<div class="size-5 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-[9px] flex items-center justify-center text-white" title="Cmdr. Shepard">CS</div>
+</div>
+<div class="rounded bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 text-[10px] font-medium text-orange-400">High</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: AI Processing -->
+<div class="flex w-80 flex-col shrink-0">
+<div class="mb-3 flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<div class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</div>
+<h3 class="font-bold text-primary tracking-wide text-sm">AI PROCESSING</h3>
+<span class="rounded bg-primary/20 px-1.5 py-0.5 text-xs text-primary font-mono">3</span>
+</div>
+<span class="material-symbols-outlined text-primary animate-spin" style="font-size: 16px;">sync</span>
+</div>
+<div class="flex flex-1 flex-col gap-3 overflow-y-auto pr-2 kanban-scroll rounded-xl bg-primary/[0.03] p-2 border border-primary/20 shadow-[inset_0_0_20px_rgba(19,91,236,0.05)]">
+<!-- AI Card 1 -->
+<div class="group relative flex cursor-grab flex-col gap-3 rounded-lg border border-primary/30 bg-[#1a1d23] p-4 shadow-[0_0_10px_rgba(19,91,236,0.1)] hover:border-primary hover:shadow-[0_0_15px_rgba(19,91,236,0.2)] transition-all">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-mono text-primary">#TSK-102</span>
+<span class="material-symbols-outlined text-[#9da6b9]/40 cursor-grab" style="font-size: 16px;">drag_indicator</span>
+</div>
+<p class="font-medium text-white text-sm leading-snug">Analyze Q3 Server Logs for intrusion attempts</p>
+<!-- AI Specific UI -->
+<div class="w-full bg-[#282e39] rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full w-[70%] shadow-[0_0_10px_rgba(19,91,236,0.8)]"></div>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2 text-xs text-[#9da6b9]">
+<span class="material-symbols-outlined text-primary" style="font-size: 16px;">smart_toy</span>
+<span class="text-primary text-[10px] font-mono">AGENT OMNI</span>
+</div>
+<div class="text-[10px] text-[#9da6b9]">70%</div>
+</div>
+</div>
+<!-- AI Card 2 -->
+<div class="group relative flex cursor-grab flex-col gap-3 rounded-lg border border-primary/30 bg-[#1a1d23] p-4 shadow-[0_0_10px_rgba(19,91,236,0.1)] hover:border-primary hover:shadow-[0_0_15px_rgba(19,91,236,0.2)] transition-all">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-mono text-primary">#TSK-108</span>
+<span class="material-symbols-outlined text-[#9da6b9]/40 cursor-grab" style="font-size: 16px;">drag_indicator</span>
+</div>
+<p class="font-medium text-white text-sm leading-snug">Generate predictive models for sector growth</p>
+<div class="w-full bg-[#282e39] rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full w-[45%] shadow-[0_0_10px_rgba(19,91,236,0.8)]"></div>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2 text-xs text-[#9da6b9]">
+<span class="material-symbols-outlined text-purple-400" style="font-size: 16px;">psychology</span>
+<span class="text-purple-400 text-[10px] font-mono">DATA MINER</span>
+</div>
+<div class="text-[10px] text-[#9da6b9]">45%</div>
+</div>
+</div>
+<!-- AI Card 3 -->
+<div class="group relative flex cursor-grab flex-col gap-3 rounded-lg border border-primary/30 bg-[#1a1d23] p-4 shadow-[0_0_10px_rgba(19,91,236,0.1)] hover:border-primary hover:shadow-[0_0_15px_rgba(19,91,236,0.2)] transition-all">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-mono text-primary">#TSK-115</span>
+<span class="material-symbols-outlined text-[#9da6b9]/40 cursor-grab" style="font-size: 16px;">drag_indicator</span>
+</div>
+<p class="font-medium text-white text-sm leading-snug">Cross-reference biometric data</p>
+<div class="w-full bg-[#282e39] rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full w-[12%] shadow-[0_0_10px_rgba(19,91,236,0.8)]"></div>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2 text-xs text-[#9da6b9]">
+<span class="material-symbols-outlined text-primary" style="font-size: 16px;">smart_toy</span>
+<span class="text-primary text-[10px] font-mono">AGENT OMNI</span>
+</div>
+<div class="text-[10px] text-[#9da6b9]">12%</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Review -->
+<div class="flex w-80 flex-col shrink-0">
+<div class="mb-3 flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-purple-400"></div>
+<h3 class="font-bold text-white tracking-wide text-sm">REVIEW</h3>
+<span class="rounded bg-[#282e39] px-1.5 py-0.5 text-xs text-[#9da6b9] font-mono">1</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-3 overflow-y-auto pr-2 kanban-scroll rounded-xl bg-white/[0.02] p-2 border border-white/[0.05]">
+<!-- Card -->
+<div class="group relative flex cursor-grab flex-col gap-3 rounded-lg border border-[#333] bg-[#1a1d23] p-4 hover:border-primary/50 hover:shadow-[0_4px_20px_-5px_rgba(0,0,0,0.5)] transition-all opacity-80 hover:opacity-100">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-mono text-[#9da6b9]">#TSK-098</span>
+<span class="material-symbols-outlined text-[#9da6b9]/40 cursor-grab" style="font-size: 16px;">drag_indicator</span>
+</div>
+<p class="font-medium text-white text-sm leading-snug">Initial report on fleet efficiency</p>
+<div class="flex items-center gap-2 p-2 bg-yellow-500/10 rounded border border-yellow-500/20">
+<span class="material-symbols-outlined text-yellow-500 text-xs">warning</span>
+<span class="text-[10px] text-yellow-500">Requires Human Approval</span>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2">
+<div class="size-5 rounded-full bg-slate-600 text-[9px] flex items-center justify-center text-white" title="Agent: Review Bot">RB</div>
+<span class="material-symbols-outlined text-[#9da6b9] text-xs">arrow_right_alt</span>
+<div class="size-5 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-[9px] flex items-center justify-center text-white" title="Cmdr. Shepard">CS</div>
+</div>
+<div class="rounded bg-[#282e39] px-2 py-0.5 text-[10px] font-medium text-[#9da6b9]">High</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Done -->
+<div class="flex w-80 flex-col shrink-0">
+<div class="mb-3 flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-400"></div>
+<h3 class="font-bold text-white tracking-wide text-sm">DONE</h3>
+<span class="rounded bg-[#282e39] px-1.5 py-0.5 text-xs text-[#9da6b9] font-mono">8</span>
+</div>
+<button class="text-[#9da6b9] hover:text-white" title="Clear All">
+<span class="material-symbols-outlined" style="font-size: 18px;">check_circle</span>
+</button>
+</div>
+<div class="flex flex-1 flex-col gap-3 overflow-y-auto pr-2 kanban-scroll rounded-xl bg-white/[0.02] p-2 border border-white/[0.05]">
+<!-- Empty State style card for droppable area -->
+<div class="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-[#333] bg-transparent p-4 h-24 opacity-50">
+<span class="text-xs text-[#9da6b9]">Drop items here to archive</span>
+</div>
+<!-- Done Card -->
+<div class="group relative flex cursor-grab flex-col gap-3 rounded-lg border border-[#333] bg-[#1a1d23] p-4 opacity-60 hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-mono text-[#9da6b9] line-through">#TSK-085</span>
+<span class="material-symbols-outlined text-green-500" style="font-size: 16px;">check_circle</span>
+</div>
+<p class="font-medium text-[#9da6b9] text-sm leading-snug line-through">Update database schema v2.3</p>
+</div>
+<!-- Done Card -->
+<div class="group relative flex cursor-grab flex-col gap-3 rounded-lg border border-[#333] bg-[#1a1d23] p-4 opacity-60 hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-mono text-[#9da6b9] line-through">#TSK-084</span>
+<span class="material-symbols-outlined text-green-500" style="font-size: 16px;">check_circle</span>
+</div>
+<p class="font-medium text-[#9da6b9] text-sm leading-snug line-through">Deploy agents to cluster 4</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

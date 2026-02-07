@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command Agent Codex</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "terminal-bg": "#090b10",
+                        "terminal-text": "#22d3ee", // Cyan-400
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex-none flex items-center justify-between border-b border-gray-200 dark:border-white/10 px-6 py-3 bg-white dark:bg-background-dark z-20">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-[32px]">hub</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Nova Command</h2>
+</div>
+<!-- Desktop Nav Links -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-medium transition-colors" href="#">Agents</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary text-sm font-medium transition-colors" href="#">Knowledge Base</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary text-sm font-medium transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<!-- Breadcrumb for context -->
+<div class="hidden lg:flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span>Agents</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-slate-900 dark:text-white font-medium">Research-Bot</span>
+</div>
+<div class="h-6 w-px bg-gray-200 dark:bg-white/10"></div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="size-8 rounded-full bg-gradient-to-br from-primary to-purple-600 p-[2px]">
+<div class="size-full rounded-full bg-background-dark bg-cover bg-center" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC6NpoigYvNvZzD5j824XI52UIT_o_1nNeNrHLu4_Kd_DXgm_97iin1JK-t7O8xA33e3if8tENCLyoDP58bP7vyJiGxmkgRVfNOSIqNXjrMdzAlFamDg7Jn7dNzEbHof51BqEKAGcA4Go-ac4jTZxgeSGfYinnlm0i3vKbs1IzGsyEJJ5SAVARThzHLSOnFhUsXnnZt8VNEA6RMlBmo6pOpjUotjWLgQzETc87zpajwh50gwo7QLlSC1Nd-4hwccALfePIyMvv0KFI');"></div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Sidebar: Agent Roster -->
+<aside class="w-72 flex flex-col border-r border-gray-200 dark:border-white/10 bg-white dark:bg-[#131820] z-10 hidden md:flex">
+<div class="p-4 border-b border-gray-200 dark:border-white/10">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-[20px]">search</span>
+<input class="w-full bg-slate-100 dark:bg-[#1c222e] border-none rounded-lg py-2 pl-10 pr-4 text-sm text-slate-900 dark:text-white placeholder-slate-500 focus:ring-1 focus:ring-primary" placeholder="Filter agents..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-3 space-y-1">
+<div class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Active Operations</div>
+<!-- Active Agent Item -->
+<button class="w-full flex items-center gap-3 p-3 rounded-lg bg-primary/10 border border-primary/20 text-left group transition-all">
+<div class="relative">
+<div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<span class="absolute -bottom-1 -right-1 size-3 bg-green-500 border-2 border-white dark:border-[#131820] rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-sm font-bold text-slate-900 dark:text-white truncate">Research-Bot</div>
+<div class="text-xs text-primary truncate">Processing query...</div>
+</div>
+<span class="material-symbols-outlined text-[16px] text-primary">graphic_eq</span>
+</button>
+<!-- Agent Item -->
+<button class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-left group transition-colors">
+<div class="relative">
+<div class="size-10 rounded-lg bg-slate-200 dark:bg-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">code</span>
+</div>
+<span class="absolute -bottom-1 -right-1 size-3 bg-yellow-500 border-2 border-white dark:border-[#131820] rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">Dev-Agent</div>
+<div class="text-xs text-slate-500 dark:text-slate-500 truncate">Idle - Awaiting task</div>
+</div>
+</button>
+<!-- Agent Item -->
+<button class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-left group transition-colors">
+<div class="relative">
+<div class="size-10 rounded-lg bg-slate-200 dark:bg-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<span class="absolute -bottom-1 -right-1 size-3 bg-gray-500 border-2 border-white dark:border-[#131820] rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">Writer-Core</div>
+<div class="text-xs text-slate-500 dark:text-slate-500 truncate">Offline</div>
+</div>
+</button>
+<div class="px-3 py-2 mt-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Support Units</div>
+<!-- Agent Item -->
+<button class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-left group transition-colors">
+<div class="relative">
+<div class="size-10 rounded-lg bg-slate-200 dark:bg-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<span class="absolute -bottom-1 -right-1 size-3 bg-green-500 border-2 border-white dark:border-[#131820] rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">Analyst-Pro</div>
+<div class="text-xs text-slate-500 dark:text-slate-500 truncate">Monitoring trends</div>
+</div>
+</button>
+</div>
+<div class="p-4 border-t border-gray-200 dark:border-white/10">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg border border-dashed border-slate-300 dark:border-white/20 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:border-primary/50 hover:text-primary transition-all text-sm font-medium">
+<span class="material-symbols-outlined">add</span>
+                    Deploy New Agent
+                </button>
+</div>
+</aside>
+<!-- Center: The Codex (Terminal) -->
+<main class="flex-1 flex flex-col min-w-0 bg-slate-900 dark:bg-terminal-bg relative shadow-inner">
+<!-- Terminal Toolbar -->
+<div class="flex items-center justify-between px-6 py-3 border-b border-white/10 bg-white/5 backdrop-blur-sm">
+<div class="flex items-center gap-1 bg-black/20 p-1 rounded-lg">
+<button class="px-3 py-1.5 rounded-md text-xs font-medium bg-primary text-white shadow-lg shadow-primary/20">Live Feed</button>
+<button class="px-3 py-1.5 rounded-md text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Errors</button>
+<button class="px-3 py-1.5 rounded-md text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors">History</button>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-xs text-slate-400 font-mono">
+<span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+                        CONNECTED
+                    </div>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings_ethernet</span>
+</button>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+<!-- Terminal Content -->
+<div class="flex-1 overflow-y-auto p-6 font-mono text-sm leading-relaxed relative scroll-smooth" id="terminal-content">
+<!-- Watermark/Background decoration -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.02]">
+<span class="material-symbols-outlined text-[400px]">smart_toy</span>
+</div>
+<div class="relative z-10 space-y-1">
+<div class="text-slate-500 select-none border-b border-white/5 pb-2 mb-4">
+                        // Session ID: NV-992-ALPHA <br/>
+                        // Connected to Agent: Research-Bot v4.2 <br/>
+                        // Protocol: Secure WebSocket <br/>
+                        // ----------------------------------------
+                    </div>
+<div class="flex gap-4 group hover:bg-white/5 p-1 -mx-1 rounded">
+<span class="text-slate-500 w-24 shrink-0 select-none">[10:41:58]</span>
+<span class="text-purple-400 font-bold w-20 shrink-0">SYSTEM</span>
+<span class="text-slate-300">Initialized search module. Loaded 14 knowledge graphs.</span>
+</div>
+<div class="flex gap-4 group hover:bg-white/5 p-1 -mx-1 rounded">
+<span class="text-slate-500 w-24 shrink-0 select-none">[10:42:01]</span>
+<span class="text-yellow-400 font-bold w-20 shrink-0">THOUGHT</span>
+<span class="text-terminal-text glow-text">Analyzing user request: "Find latest developments in quantum computing error correction." Identifying key entities...</span>
+</div>
+<div class="flex gap-4 group hover:bg-white/5 p-1 -mx-1 rounded">
+<span class="text-slate-500 w-24 shrink-0 select-none">[10:42:02]</span>
+<span class="text-yellow-400 font-bold w-20 shrink-0">THOUGHT</span>
+<span class="text-terminal-text glow-text">Entities identified: "Quantum Error Correction", "Surface Codes", "Qubits". Formulating search strategy.</span>
+</div>
+<div class="flex gap-4 group hover:bg-white/5 p-1 -mx-1 rounded">
+<span class="text-slate-500 w-24 shrink-0 select-none">[10:42:02]</span>
+<span class="text-blue-400 font-bold w-20 shrink-0">ACTION</span>
+<span class="text-slate-300">_exec_search_query(q="quantum error correction breakthrough 2024", limit=10)</span>
+</div>
+<div class="flex gap-4 group hover:bg-white/5 p-1 -mx-1 rounded">
+<span class="text-slate-500 w-24 shrink-0 select-none">[10:42:04]</span>
+<span class="text-green-400 font-bold w-20 shrink-0">SUCCESS</span>
+<span class="text-slate-300">Received 10 results from ArXiv, Nature, and TechCrunch. Parsing abstracts...</span>
+</div>
+<div class="flex gap-4 group hover:bg-white/5 p-1 -mx-1 rounded">
+<span class="text-slate-500 w-24 shrink-0 select-none">[10:42:05]</span>
+<span class="text-yellow-400 font-bold w-20 shrink-0">THOUGHT</span>
+<span class="text-terminal-text glow-text">Result #3 looks promising: "Fault-tolerant qubits with new surface code architecture". Analyzing content for relevance to prompt.</span>
+</div>
+<div class="flex gap-4 group hover:bg-white/5 p-1 -mx-1 rounded">
+<span class="text-slate-500 w-24 shrink-0 select-none">[10:42:06]</span>
+<span class="text-blue-400 font-bold w-20 shrink-0">ACTION</span>
+<span class="text-slate-300">_fetch_page_content(url="https://arxiv.org/abs/2405.xxxxx")</span>
+</div>
+<div class="flex gap-4 group hover:bg-white/5 p-1 -mx-1 rounded">
+<span class="text-slate-500 w-24 shrink-0 select-none">[10:42:08]</span>
+<span class="text-purple-400 font-bold w-20 shrink-0">MEMORY</span>
+<span class="text-slate-400 italic">Writing to long-term storage: Context ID #8821. "Quantum Error Correction" node updated.</span>
+</div>
+<div class="flex gap-4 group hover:bg-white/5 p-1 -mx-1 rounded">
+<span class="text-slate-500 w-24 shrink-0 select-none">[10:42:09]</span>
+<span class="text-yellow-400 font-bold w-20 shrink-0">THOUGHT</span>
+<span class="text-terminal-text glow-text">Synthesizing summary. Checking cross-references with "Google Sycamore" data.</span>
+</div>
+<div class="flex gap-4 group hover:bg-white/5 p-1 -mx-1 rounded">
+<span class="text-slate-500 w-24 shrink-0 select-none">[10:42:09]</span>
+<span class="text-terminal-text font-bold w-20 shrink-0 animate-pulse">...</span>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Controls -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 bg-slate-800/90 dark:bg-[#1c222e]/90 backdrop-blur border border-white/10 rounded-full shadow-2xl z-20">
+<button class="flex items-center gap-2 text-xs font-medium text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[16px]">pause</span>
+                    Pause Stream
+                </button>
+<div class="w-px h-4 bg-white/20"></div>
+<button class="flex items-center gap-2 text-xs font-medium text-primary">
+<span class="material-symbols-outlined text-[16px]">vertical_align_bottom</span>
+                    Auto-scroll On
+                </button>
+</div>
+</main>
+<!-- Right Sidebar: Metadata & Actions -->
+<aside class="w-80 flex flex-col border-l border-gray-200 dark:border-white/10 bg-white dark:bg-[#131820] z-10 overflow-y-auto">
+<div class="p-6 pb-2">
+<div class="flex items-start justify-between mb-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Agent Status</h3>
+<span class="px-2 py-1 rounded text-xs font-bold bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20">ONLINE</span>
+</div>
+<div class="bg-slate-100 dark:bg-background-dark rounded-xl p-4 border border-slate-200 dark:border-white/5 mb-6">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Current Task</p>
+<p class="text-sm font-medium text-slate-900 dark:text-white leading-relaxed">
+                        Synthesizing findings on quantum error correction and preparing a briefing document.
+                    </p>
+<div class="mt-3 w-full bg-slate-200 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%] rounded-full animate-pulse"></div>
+</div>
+<div class="flex justify-between mt-1">
+<span class="text-[10px] text-slate-500">Progress</span>
+<span class="text-[10px] text-slate-500">65%</span>
+</div>
+</div>
+</div>
+<div class="flex-1 px-6 space-y-6">
+<!-- Metrics Grid -->
+<div>
+<h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Live Metrics</h4>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-slate-50 dark:bg-[#1c222e] p-3 rounded-lg border border-slate-200 dark:border-white/5">
+<div class="text-slate-400 mb-1">
+<span class="material-symbols-outlined text-[20px]">token</span>
+</div>
+<div class="text-xl font-bold text-slate-900 dark:text-white">4.2k</div>
+<div class="text-[10px] text-slate-500">Tokens Used</div>
+</div>
+<div class="bg-slate-50 dark:bg-[#1c222e] p-3 rounded-lg border border-slate-200 dark:border-white/5">
+<div class="text-slate-400 mb-1">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+</div>
+<div class="text-xl font-bold text-slate-900 dark:text-white">42m</div>
+<div class="text-[10px] text-slate-500">Session Time</div>
+</div>
+<div class="bg-slate-50 dark:bg-[#1c222e] p-3 rounded-lg border border-slate-200 dark:border-white/5">
+<div class="text-slate-400 mb-1">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</div>
+<div class="text-xl font-bold text-slate-900 dark:text-white">GPT-4</div>
+<div class="text-[10px] text-slate-500">Active Model</div>
+</div>
+<div class="bg-slate-50 dark:bg-[#1c222e] p-3 rounded-lg border border-slate-200 dark:border-white/5">
+<div class="text-slate-400 mb-1">
+<span class="material-symbols-outlined text-[20px]">attach_money</span>
+</div>
+<div class="text-xl font-bold text-slate-900 dark:text-white">$0.14</div>
+<div class="text-[10px] text-slate-500">Est. Cost</div>
+</div>
+</div>
+</div>
+<!-- Recent Artifacts -->
+<div>
+<h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Generated Artifacts</h4>
+<div class="space-y-2">
+<a class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<div class="size-8 rounded bg-blue-500/10 text-blue-500 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-sm text-slate-700 dark:text-slate-300 truncate group-hover:text-primary">quantum_summary.md</div>
+<div class="text-[10px] text-slate-500">2 mins ago</div>
+</div>
+</a>
+<a class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<div class="size-8 rounded bg-purple-500/10 text-purple-500 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">link</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-sm text-slate-700 dark:text-slate-300 truncate group-hover:text-primary">ArXiv References</div>
+<div class="text-[10px] text-slate-500">5 mins ago</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+<!-- Actions Footer -->
+<div class="p-6 border-t border-gray-200 dark:border-white/10 bg-slate-50 dark:bg-[#161b24] mt-auto">
+<div class="flex flex-col gap-3">
+<button class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">alt_route</span>
+                        Delegate New Task
+                    </button>
+<button class="w-full bg-transparent hover:bg-red-500/10 text-red-500 dark:text-red-400 font-medium py-2 px-4 rounded-lg border border-red-500/20 hover:border-red-500/50 transition-all flex items-center justify-center gap-2 text-sm">
+<span class="material-symbols-outlined text-[18px]">stop_circle</span>
+                        Force Stop
+                    </button>
+</div>
+</div>
+</aside>
+</div>
+</body></html>
