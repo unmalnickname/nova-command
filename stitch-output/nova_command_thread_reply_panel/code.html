@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command - Thread Reply Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5a67f2",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f0f0f",
+                        "surface-dark": "#1a1a1a",
+                        "border-dark": "#282a39",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #282a39;
+            border-radius: 10px;
+        }
+        .thread-connector {
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: 0;
+            width: 2px;
+            background: #282a39;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Main Top Navigation -->
+<header class="flex h-14 items-center justify-between border-b border-solid border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark px-6 z-20">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-7 bg-primary rounded flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-lg">deployed_code</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold tracking-tight">Nova Command</h2>
+</div>
+<div class="hidden md:flex items-center gap-1 text-slate-500 dark:text-slate-400 text-sm font-medium">
+<span>Deployments</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-slate-900 dark:text-white">US-East Cluster</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex bg-slate-100 dark:bg-surface-dark rounded-lg px-3 py-1.5 items-center gap-2 border border-transparent focus-within:border-primary transition-all">
+<span class="material-symbols-outlined text-slate-400 text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 p-0 placeholder:text-slate-500" placeholder="Quick search..." type="text"/>
+</div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-surface-dark rounded-lg text-slate-500 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center overflow-hidden">
+<img alt="User" class="w-full h-full object-cover" data-alt="Stylized avatar of a system administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACs-NyoltqP2CJKFPr65MfFSOD_5RK7YLx8TRSpst3ea-TQZuPh73d6RAPJ2ikRkXJFGrGXpXQHMevTU030ZFkboV6fM0ENPa0qXkC9eAOv7V8jU_Eixt2DIGTHfmZ-7FUZja0vNjNmbw_-qwpq_lmzlK3PpkhCgX-x53GD8sBggXOmJEhYBpQ03NkK1XmqroPbFNh0Nvi2mEjbNf5tf5JFdHGq5ALRWlvX9aLu8X5SVNCAtN19lxmxfnqutsVwKJd3ctFknwPs6k"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-16 md:w-60 border-r border-slate-200 dark:border-border-dark flex flex-col bg-white dark:bg-background-dark z-10">
+<div class="flex flex-col gap-1 p-4 flex-1">
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-surface-dark transition-colors cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="hidden md:block text-sm font-semibold">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">forum</span>
+<span class="hidden md:block text-sm font-semibold">Agent Teams</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-surface-dark transition-colors cursor-pointer">
+<span class="material-symbols-outlined">cloud_done</span>
+<span class="hidden md:block text-sm font-semibold">Deployments</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-surface-dark transition-colors cursor-pointer">
+<span class="material-symbols-outlined">list_alt</span>
+<span class="hidden md:block text-sm font-semibold">System Logs</span>
+</div>
+</div>
+<div class="p-4 border-t border-slate-200 dark:border-border-dark">
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-surface-dark transition-colors cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="hidden md:block text-sm font-semibold">Settings</span>
+</div>
+</div>
+</aside>
+<!-- Main Chat Area (Mock Background) -->
+<main class="flex-1 relative flex flex-col bg-slate-50 dark:bg-background-dark/50">
+<div class="p-8 space-y-8 opacity-40 select-none pointer-events-none">
+<div class="flex gap-4">
+<div class="h-10 w-10 rounded-lg bg-slate-300 dark:bg-surface-dark shrink-0"></div>
+<div class="space-y-2 flex-1">
+<div class="h-4 w-32 bg-slate-300 dark:bg-surface-dark rounded"></div>
+<div class="h-4 w-full bg-slate-200 dark:bg-surface-dark/50 rounded"></div>
+<div class="h-4 w-2/3 bg-slate-200 dark:bg-surface-dark/50 rounded"></div>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="h-10 w-10 rounded-lg bg-slate-300 dark:bg-surface-dark shrink-0"></div>
+<div class="space-y-2 flex-1">
+<div class="h-4 w-32 bg-slate-300 dark:bg-surface-dark rounded"></div>
+<div class="h-4 w-full bg-slate-200 dark:bg-surface-dark/50 rounded"></div>
+</div>
+</div>
+</div>
+<!-- RIGHT SLIDE-OUT PANEL (THREAD) -->
+<div class="absolute inset-y-0 right-0 w-[320px] bg-white dark:bg-background-dark border-l border-slate-200 dark:border-border-dark flex flex-col shadow-2xl z-30">
+<!-- Thread Header -->
+<div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark">
+<div class="flex flex-col">
+<h3 class="text-sm font-bold dark:text-white uppercase tracking-wider">Thread</h3>
+<span class="text-[11px] text-slate-500 font-medium">in #prod-cluster-ops</span>
+</div>
+<button class="p-1.5 hover:bg-slate-100 dark:hover:bg-surface-dark rounded text-slate-500">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+<!-- Thread Content (Scrollable) -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-0 relative">
+<!-- Root Message -->
+<div class="p-4 bg-slate-50 dark:bg-surface-dark/30 border-b border-slate-200 dark:border-border-dark">
+<div class="flex gap-3">
+<div class="h-9 w-9 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-xl">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-900 dark:text-white">Nova-Alpha</span>
+<span class="text-[10px] text-slate-500">10:24 AM</span>
+</div>
+<p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                                        I've initialized the deployment sequence for the production cluster. Shall I proceed with the load balancer configuration?
+                                    </p>
+</div>
+</div>
+</div>
+<!-- Replies Container -->
+<div class="relative px-4 py-6 flex flex-col gap-6">
+<div class="thread-connector"></div>
+<!-- Reply 1 (Admin) -->
+<div class="relative z-10 flex gap-3">
+<div class="h-9 w-9 rounded-lg bg-slate-200 dark:bg-slate-700 border border-transparent flex items-center justify-center shrink-0 overflow-hidden">
+<img alt="Admin" class="w-full h-full object-cover" data-alt="Avatar of the system administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK8mhzUFHH5ESnH8nx4eqDXwDi8Dwd19quiDsialtNN33-b1wbb1rUh1LFv3lmtEiS-ak7RwjRlFZ_Bm3EuFmkbNiSQk4gfpj90YMDQNuyzbxUbzV3mhSwHwj98jiiI07aaQk6GIia4z5sZqKPAPj4xAEmxOLB9ytTfs5fkai1ze3wKDO4yzhAqdQtZFB_hnqIsEZPqBe6C9NvhzMy0l7rg7tsPESAtFhOTOZqdg19594ZHlXEdS4nOoqA_q0Gt0mRcW9bh-UDV90"/>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-900 dark:text-white">Admin</span>
+<span class="text-[10px] text-slate-500">10:25 AM</span>
+</div>
+<div class="p-3 bg-primary text-white text-sm rounded-lg rounded-tl-none shadow-sm">
+                                        Yes, please use the standard configuration for the US-East region.
+                                    </div>
+</div>
+</div>
+<!-- Reply 2 (Agent) -->
+<div class="relative z-10 flex gap-3">
+<div class="h-9 w-9 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-xl">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-900 dark:text-white">Nova-Alpha</span>
+<span class="text-[10px] text-slate-500">10:26 AM</span>
+</div>
+<div class="p-3 bg-slate-100 dark:bg-surface-dark text-slate-700 dark:text-slate-300 text-sm rounded-lg rounded-tl-none border border-slate-200 dark:border-border-dark">
+                                        Acknowledged. Configuring <code class="bg-black/10 dark:bg-white/5 px-1 rounded font-mono text-xs">nginx-lb-01</code>. Verification in progress...
+                                    </div>
+</div>
+</div>
+<!-- Reply 3 (Status Alert) -->
+<div class="relative z-10 flex gap-3 items-start">
+<div class="h-9 w-9 rounded-lg flex items-center justify-center shrink-0 bg-amber-500/10 border border-amber-500/30">
+<span class="material-symbols-outlined text-amber-500 text-xl">warning</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-900 dark:text-white">Monitor-Bot</span>
+<span class="text-[10px] text-slate-500">10:27 AM</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 italic">
+                                        Traffic spike detected in US-East-1 during config update.
+                                    </p>
+</div>
+</div>
+<!-- Reply 4 (Admin) -->
+<div class="relative z-10 flex gap-3">
+<div class="h-9 w-9 rounded-lg bg-slate-200 dark:bg-slate-700 border border-transparent flex items-center justify-center shrink-0 overflow-hidden">
+<img alt="Admin" class="w-full h-full object-cover" data-alt="Avatar of the system administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDypsk_urWRmVqFr877c5Hf9KjIaZlVmE_QduTb56F1SNsrm2Hp8l45Yr9-bY6q7EFVaITE-prUt2phLZa_gOac9WzcZKkRBwlCw8j_FChNjdYmoCRYBWJZnB4S62NXT4YC4dlF3cxPmRL3wGm8mCRceq-5uO-StpahFsi4RPmRYiTTqOHfgnRsE5fqUAlP1oj2L0pnKe0pCGPu8d8qbcK1Gvj3k1sYLvAatJBFXQCI82DeuUhp_e4gSNYA9B4AoMGot_VQfiS6JJ4"/>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-slate-900 dark:text-white">Admin</span>
+<span class="text-[10px] text-slate-500">Just now</span>
+</div>
+<div class="p-3 bg-primary text-white text-sm rounded-lg rounded-tl-none shadow-sm">
+                                        Checking the logs now. Nova-Alpha, wait for my signal before committing.
+                                    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Message Input -->
+<div class="p-4 border-t border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark">
+<div class="relative">
+<textarea class="w-full bg-slate-50 dark:bg-surface-dark border-slate-200 dark:border-border-dark rounded-xl text-sm focus:ring-primary focus:border-primary placeholder:text-slate-500 resize-none transition-all pr-10" placeholder="Reply to thread..." rows="3"></textarea>
+<div class="absolute bottom-3 right-3 flex items-center gap-2">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">mood</span>
+</button>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">attach_file</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between mt-3">
+<div class="flex items-center gap-2 text-[10px] text-slate-500 font-medium">
+<span class="size-2 bg-green-500 rounded-full animate-pulse"></span>
+                                Agents listening
+                            </div>
+<button class="bg-primary hover:bg-primary/90 text-white text-xs font-bold py-1.5 px-4 rounded-lg flex items-center gap-2 shadow-lg shadow-primary/20 transition-all active:scale-95">
+                                SEND
+                                <span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

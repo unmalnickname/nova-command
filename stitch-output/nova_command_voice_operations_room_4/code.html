@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command - Communication Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#5865F2", 
+                        "primary-glow": "#4752c4",
+                        "background-dark": "#0f0f0f",
+                        "sidebar-dark": "#1a1d24", 
+                        "panel-dark": "#2b2d31",
+                        "channel-hover": "#35373c",
+                        "message-hover": "#2e3035",
+                        "accent-cyan": "#00e5ff",
+                        "accent-purple": "#bd00ff",
+                        "text-muted": "#949ba4",
+                    },
+                    fontFamily: {
+                        display: ["Space Grotesk", "sans-serif"],
+                        mono: ["Space Grotesk", "monospace"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px",
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Space Grotesk", sans-serif;
+            background-color: #313338; 
+        }::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2b2d31; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1a1b1e; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #111214; 
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white h-screen overflow-hidden flex flex-col md:flex-row">
+<div class="md:hidden flex items-center justify-between p-4 bg-sidebar-dark border-b border-[#1f2125]">
+<div class="flex items-center gap-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 h-8" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCupI42AhyYp__aPgdQsqhKXAuMS9_BXgfTRTN2jzZyka-UFbYDbnVFonjxHrweTPNREJ4e7MTrDUQNlvJng1ZyQVZTeSqOaNstSjuoJQwilE6W-NwzxCtvRGy5Krxzi-ZS7OZVJzCH2L36J8nMb8yV7DvN2otupkAuts62Rw01sP8WF3X3wSn0KRdS_Ia8CP-5rjhfJ_K7KKwuOqX91Wh2_8uyWJnXy0fvtIkot5gfTy9WwgQn_TmZqlCUHra3rpGXlkBBvwbCOE0");'></div>
+<span class="font-bold text-lg text-white">Nova Command</span>
+</div>
+<button class="text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<aside class="hidden md:flex flex-col w-[72px] bg-[#1e1f22] items-center py-3 gap-2 flex-shrink-0 overflow-y-auto no-scrollbar">
+<div class="w-12 h-12 rounded-[24px] hover:rounded-[16px] transition-all duration-200 bg-[#313338] hover:bg-primary flex items-center justify-center cursor-pointer group relative mb-2">
+<div class="absolute left-0 w-1 h-2 bg-white rounded-r-full -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all top-1/2 -translate-y-1/2"></div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover w-full h-full rounded-[inherit]" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCupI42AhyYp__aPgdQsqhKXAuMS9_BXgfTRTN2jzZyka-UFbYDbnVFonjxHrweTPNREJ4e7MTrDUQNlvJng1ZyQVZTeSqOaNstSjuoJQwilE6W-NwzxCtvRGy5Krxzi-ZS7OZVJzCH2L36J8nMb8yV7DvN2otupkAuts62Rw01sP8WF3X3wSn0KRdS_Ia8CP-5rjhfJ_K7KKwuOqX91Wh2_8uyWJnXy0fvtIkot5gfTy9WwgQn_TmZqlCUHra3rpGXlkBBvwbCOE0");'></div>
+</div>
+<div class="w-8 h-[2px] bg-[#35363c] rounded-lg mx-auto"></div>
+<div class="w-12 h-12 rounded-[16px] bg-primary flex items-center justify-center cursor-pointer relative group">
+<div class="absolute -left-4 w-1 h-10 bg-white rounded-r-full top-1/2 -translate-y-1/2"></div>
+<div class="text-white font-bold text-sm">NC</div>
+</div>
+<div class="w-12 h-12 rounded-[24px] hover:rounded-[16px] transition-all duration-200 bg-[#313338] hover:bg-primary flex items-center justify-center cursor-pointer group relative">
+<div class="absolute left-0 w-1 h-2 bg-white rounded-r-full -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all group-hover:h-5 top-1/2 -translate-y-1/2"></div>
+<span class="material-symbols-outlined text-green-500">terminal</span>
+</div>
+<div class="w-12 h-12 rounded-[24px] hover:rounded-[16px] transition-all duration-200 bg-[#313338] hover:bg-primary flex items-center justify-center cursor-pointer group relative">
+<div class="absolute left-0 w-1 h-2 bg-white rounded-r-full -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all group-hover:h-5 top-1/2 -translate-y-1/2"></div>
+<span class="material-symbols-outlined text-accent-purple">neurology</span>
+</div>
+<div class="w-12 h-12 rounded-[24px] hover:rounded-[16px] transition-all duration-200 bg-[#313338] hover:bg-green-600 flex items-center justify-center cursor-pointer group relative mt-auto">
+<span class="material-symbols-outlined text-green-500 group-hover:text-white">add</span>
+</div>
+</aside>
+<aside class="hidden md:flex flex-col w-60 bg-panel-dark h-full flex-shrink-0 relative">
+<div class="h-12 border-b border-[#1f2125] flex items-center justify-between px-4 hover:bg-[#35373c] cursor-pointer transition-colors shadow-sm z-10">
+<h1 class="font-bold text-white text-[15px] truncate">Nova Operations</h1>
+<span class="material-symbols-outlined text-white text-lg">expand_more</span>
+</div>
+<div class="flex-1 overflow-y-auto px-2 py-3 space-y-4">
+<div class="flex flex-col gap-[2px]">
+<div class="flex items-center gap-0.5 px-1 text-text-muted hover:text-gray-300 cursor-pointer mb-1">
+<span class="material-symbols-outlined text-[12px]">expand_more</span>
+<span class="text-xs font-bold uppercase tracking-wide">Operations</span>
+</div>
+<div class="group flex items-center justify-between px-2 py-1.5 rounded bg-transparent hover:bg-channel-hover cursor-pointer text-gray-400 hover:text-gray-200">
+<div class="flex items-center gap-1.5 overflow-hidden">
+<span class="material-symbols-outlined text-xl text-gray-500">campaign</span>
+<span class="truncate font-medium">announcements</span>
+</div>
+<div class="flex items-center">
+<div class="bg-red-500 text-white text-[10px] font-bold px-1.5 rounded-full min-w-[16px] text-center">3</div>
+</div>
+</div>
+<div class="group flex items-center justify-between px-2 py-1.5 rounded bg-[#404249] text-white cursor-pointer">
+<div class="flex items-center gap-1.5 overflow-hidden">
+<span class="material-symbols-outlined text-xl text-gray-400">tag</span>
+<span class="truncate font-medium">general</span>
+</div>
+</div>
+<div class="group flex items-center justify-between px-2 py-1.5 rounded bg-transparent hover:bg-channel-hover cursor-pointer text-white font-medium">
+<div class="flex items-center gap-1.5 overflow-hidden">
+<span class="material-symbols-outlined text-xl text-gray-400">tag</span>
+<span class="truncate">dev-tasks</span>
+</div>
+<div class="w-2 h-2 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="flex flex-col gap-[2px]">
+<div class="flex items-center gap-0.5 px-1 text-text-muted hover:text-gray-300 cursor-pointer mb-1">
+<span class="material-symbols-outlined text-[12px]">expand_more</span>
+<span class="text-xs font-bold uppercase tracking-wide">Research</span>
+</div>
+<div class="group flex items-center justify-between px-2 py-1.5 rounded bg-transparent hover:bg-channel-hover cursor-pointer text-gray-400 hover:text-gray-200">
+<div class="flex items-center gap-1.5 overflow-hidden">
+<span class="material-symbols-outlined text-xl text-gray-500">tag</span>
+<span class="truncate font-medium">model-tuning</span>
+</div>
+</div>
+<div class="group flex items-center justify-between px-2 py-1.5 rounded bg-transparent hover:bg-channel-hover cursor-pointer text-gray-400 hover:text-gray-200">
+<div class="flex items-center gap-1.5 overflow-hidden">
+<span class="material-symbols-outlined text-xl text-gray-500">lock</span>
+<span class="truncate font-medium">restricted-data</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-[2px]">
+<div class="flex items-center gap-0.5 px-1 text-text-muted hover:text-gray-300 cursor-pointer mb-1">
+<span class="material-symbols-outlined text-[12px]">expand_more</span>
+<span class="text-xs font-bold uppercase tracking-wide">Support</span>
+</div>
+<div class="group flex items-center justify-between px-2 py-1.5 rounded bg-transparent hover:bg-channel-hover cursor-pointer text-gray-400 hover:text-gray-200">
+<div class="flex items-center gap-1.5 overflow-hidden">
+<span class="material-symbols-outlined text-xl text-gray-500">tag</span>
+<span class="truncate font-medium">incident-reports</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-[#232428] px-2 py-1.5 flex items-center gap-2">
+<div class="relative group cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCbI-fSD9sAwWqs1wlwzw9ln6SHNqxrvw5gh_M5sx815gcM6fym0MikZDmU6fOWb4CgMLCkD9TRBLJT54MFjhlvCfMbmnYy_QBH2ZmmQ7U2t60Wh37OqVuclReWaOu5_y2b-nBjL46nX4Opv8WmTE2t6fjbsTBFlHl5jNo8edC_DHNhB_qyAAkSl_qDtw6W6q_6Bj7kFLpC3_eSDYKNPCfjgnEtupUYCFWPjBic0BRpqXbXxpjhUnFdqhn9oqwSm-kfMfXq9tC3LGQ");'></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-[2.5px] border-[#232428]"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="text-sm font-bold text-white truncate">Admin</div>
+<div class="text-xs text-gray-400 truncate">#8842</div>
+</div>
+<div class="flex items-center">
+<button class="p-1.5 rounded hover:bg-[#3f4147] text-gray-300 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+<button class="p-1.5 rounded hover:bg-[#3f4147] text-gray-300 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">headset</span>
+</button>
+<button class="p-1.5 rounded hover:bg-[#3f4147] text-gray-300 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full bg-[#313338] relative min-w-0">
+<header class="h-12 border-b border-[#26272d] flex items-center justify-between px-4 bg-[#313338] shadow-sm flex-shrink-0 z-10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-2xl text-gray-400">tag</span>
+<div class="flex flex-col">
+<h2 class="text-white font-bold text-base leading-none">general</h2>
+</div>
+<div class="h-6 w-[1px] bg-gray-600 mx-2"></div>
+<p class="text-gray-400 text-xs hidden sm:block truncate">Main coordination channel for active operations.</p>
+</div>
+<div class="flex items-center gap-4 text-gray-400">
+<button class="hover:text-gray-200 transition-colors tooltip" title="Threads">
+<span class="material-symbols-outlined">tag</span>
+</button>
+<button class="hover:text-gray-200 transition-colors" title="Notifications">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hover:text-gray-200 transition-colors" title="Pinned Messages">
+<span class="material-symbols-outlined">push_pin</span>
+</button>
+<button class="hover:text-gray-200 transition-colors text-white" title="Member List">
+<span class="material-symbols-outlined">group</span>
+</button>
+<div class="relative w-48 hidden md:block">
+<input class="bg-[#1e1f22] text-sm text-gray-300 rounded px-2 py-1 w-full border-none focus:ring-0 focus:bg-black/20 transition-colors placeholder-gray-500" placeholder="Search" type="text"/>
+<span class="material-symbols-outlined absolute right-1 top-1.5 text-gray-500 text-sm">search</span>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto px-4 pt-4 pb-2 flex flex-col gap-0.5" id="chat-scroller">
+<div class="mt-4 mb-8 px-4">
+<div class="w-16 h-16 bg-[#41434a] rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-4xl text-white">tag</span>
+</div>
+<h1 class="text-3xl font-bold text-white mb-2">Welcome to #general!</h1>
+<p class="text-gray-400">This is the start of the <span class="font-medium text-white">#general</span> channel.</p>
+</div>
+<div class="flex items-center py-2 relative">
+<div class="h-[1px] bg-[#3f4147] flex-1"></div>
+<span class="text-xs font-semibold text-gray-400 px-2">Today</span>
+<div class="h-[1px] bg-[#3f4147] flex-1"></div>
+</div>
+<div class="group flex gap-4 px-4 py-1 hover:bg-[#2e3035] -mx-4 mt-2">
+<div class="w-10 h-10 rounded-full bg-cover bg-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity mt-0.5" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCbI-fSD9sAwWqs1wlwzw9ln6SHNqxrvw5gh_M5sx815gcM6fym0MikZDmU6fOWb4CgMLCkD9TRBLJT54MFjhlvCfMbmnYy_QBH2ZmmQ7U2t60Wh37OqVuclReWaOu5_y2b-nBjL46nX4Opv8WmTE2t6fjbsTBFlHl5jNo8edC_DHNhB_qyAAkSl_qDtw6W6q_6Bj7kFLpC3_eSDYKNPCfjgnEtupUYCFWPjBic0BRpqXbXxpjhUnFdqhn9oqwSm-kfMfXq9tC3LGQ");'></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline gap-2">
+<span class="font-medium text-white hover:underline cursor-pointer text-[15px]">Admin</span>
+<span class="text-xs text-gray-400 ml-1">10:41 AM</span>
+</div>
+<p class="text-gray-300 text-[15px] leading-relaxed">Nova, initiate protocol 7. We need a full diagnostic of the agent swarm before the next deployment cycle.</p>
+</div>
+</div>
+<div class="group flex gap-4 px-4 py-1 hover:bg-[#2e3035] -mx-4 mt-1">
+<div class="w-10 h-10 rounded-full bg-cover bg-center flex-shrink-0 cursor-pointer mt-0.5" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD71DkOjc3YXLXHC02ZlyV_BGgd_qi7LWtadbRXazfmu3kAVf69W3nAd2my0E0BtrzJDCJ4MbqA8r3X-4bR12wkhGR-g7ekDvr3YckeaxmWISQi7XWZOqhtXleIRAhLGy0FlndWYsH28uzWd4g4_HDzWJgzRC066gj2q9CZkc2B4TxoXmxv0-lCqwE2QRm9pFOPSsTrr4fJBY3ExnrQWzWaMYLyyJRvVUWC0KPL_Ds3NbEJnALW0x-L_JZnsSIuCEs6OIhdfzoNcvM");'></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-medium text-white hover:underline cursor-pointer text-[15px]">Nova AI</span>
+<span class="bg-primary text-white text-[10px] font-bold px-1.5 py-[1px] rounded-[3px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">smart_toy</span> APP
+                    </span>
+<span class="text-xs text-gray-400 ml-1">10:41 AM</span>
+</div>
+<p class="text-gray-300 text-[15px] leading-relaxed">Acknowledged. Initiating Protocol 7.</p>
+<div class="mt-2 flex gap-0 rounded bg-[#2b2d31] max-w-md border-l-4 border-accent-cyan">
+<div class="p-3 w-full">
+<div class="flex items-center justify-between mb-2">
+<span class="font-bold text-accent-cyan text-sm">Diagnostic Sequence</span>
+<span class="text-xs text-gray-500">ID: #9928-AX</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-center justify-between text-sm">
+<span class="text-gray-400">Core Systems</span>
+<span class="text-green-400">Optimal</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-gray-400">Neural Link</span>
+<span class="text-green-400">Stable (24ms)</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-gray-400">Agent Status</span>
+<span class="text-yellow-400">2 Idle, 4 Active</span>
+</div>
+</div>
+<div class="mt-3 bg-[#1e1f22] rounded overflow-hidden h-1.5 w-full">
+<div class="h-full bg-accent-cyan w-2/3"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="group flex gap-4 px-4 py-1 hover:bg-[#2e3035] -mx-4 mt-1">
+<div class="w-10 h-10 rounded-full bg-cover bg-center flex-shrink-0 cursor-pointer mt-0.5" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBsn5EWNjw3Ph80o1aCQuafu9Tv0-yF_YXpBku1YI5iqGjl9Zi3vyWDZ8T_uiiJtShtx2DEzB1hx-ER1YHK7i7IwPNCfxXPg45EH8okXL3mkmZam5rhb-SNWColkfXn0O_hxrgmCJ--oMrSRdt2_snd4q7a0CteozBxELlaj_xtbupAsfZmzMzYcFOPxXySZpRp1_uprPv6MG4jZRjLBgAJlN3T_Hdb9phBbtOgWGM3OafGA_GE3iJIh5tdB0TJxD9KeAHLyQ465gk");'></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-medium text-white hover:underline cursor-pointer text-[15px]">Codex</span>
+<span class="bg-primary text-white text-[10px] font-bold px-1.5 py-[1px] rounded-[3px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">smart_toy</span> APP
+                    </span>
+<span class="text-xs text-gray-400 ml-1">10:42 AM</span>
+</div>
+<p class="text-gray-300 text-[15px] leading-relaxed">I've detected a potential optimization path for the retrieval algorithm. Shall I proceed with the patch?</p>
+</div>
+</div>
+<div class="group flex gap-4 px-4 py-0.5 hover:bg-[#2e3035] -mx-4 mt-0.5 items-start">
+<div class="w-10 text-[10px] text-gray-500 text-right opacity-0 group-hover:opacity-100 select-none pt-2">10:43 AM</div>
+<div class="flex-1 min-w-0">
+<p class="text-gray-300 text-[15px] leading-relaxed">Wait, let me review the diff first. Don't want to break the prod environment again.</p>
+</div>
+</div>
+</div>
+<div class="px-4 pb-6 pt-2 flex-shrink-0">
+<div class="bg-[#383a40] rounded-lg p-2.5 flex flex-col gap-2 relative">
+<div class="absolute left-4 top-3 flex items-center gap-3">
+<button class="bg-gray-300 text-[#383a40] rounded-full w-5 h-5 flex items-center justify-center hover:text-white hover:bg-gray-400 transition-colors">
+<span class="font-bold text-sm">+</span>
+</button>
+</div>
+<textarea class="bg-transparent border-none text-gray-200 placeholder-gray-500 focus:ring-0 resize-none w-full pl-10 pr-10 py-0.5 text-[15px]" placeholder="Message #general" rows="1"></textarea>
+<div class="absolute right-3 top-2 flex items-center gap-3 text-gray-400">
+<span class="material-symbols-outlined cursor-pointer hover:text-yellow-400 text-2xl">redeem</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-gray-200 text-2xl">gif_box</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-gray-200 text-2xl">sticky_note_2</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-yellow-400 text-2xl">sentiment_satisfied</span>
+</div>
+</div>
+<div class="text-center mt-1">
+<span class="text-[10px] text-gray-500">
+<span class="font-bold text-gray-400">Codex</span> is typing...
+            </span>
+</div>
+</div>
+</main>
+<aside class="hidden xl:flex flex-col w-[320px] bg-[#2b2d31] border-l border-[#1f2125] h-full flex-shrink-0">
+<div class="h-12 border-b border-[#1f2125] flex items-center px-4 bg-[#2b2d31]">
+<h3 class="font-bold text-gray-400 text-xs uppercase tracking-wide">Channel Context</h3>
+</div>
+<div class="flex-1 overflow-y-auto p-4 custom-scrollbar">
+<div class="mb-6">
+<h4 class="text-gray-300 font-bold text-xs uppercase mb-2">About #general</h4>
+<p class="text-gray-400 text-sm leading-snug">
+                The primary communication hub for Nova Command operations. Coordinate agent deployments, monitor system health, and discuss strategy.
+            </p>
+<div class="mt-3 flex items-center gap-2 text-xs text-gray-500">
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+<span>Channel Health: Excellent</span>
+</div>
+</div>
+<div class="mb-6">
+<div class="flex items-center justify-between mb-2">
+<h4 class="text-gray-300 font-bold text-xs uppercase">Pinned Messages</h4>
+<span class="text-xs text-gray-500">1 Pin</span>
+</div>
+<div class="bg-[#1e1f22] rounded p-3 border border-[#1f2125]">
+<div class="flex items-center gap-2 mb-1">
+<div class="w-5 h-5 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCbI-fSD9sAwWqs1wlwzw9ln6SHNqxrvw5gh_M5sx815gcM6fym0MikZDmU6fOWb4CgMLCkD9TRBLJT54MFjhlvCfMbmnYy_QBH2ZmmQ7U2t60Wh37OqVuclReWaOu5_y2b-nBjL46nX4Opv8WmTE2t6fjbsTBFlHl5jNo8edC_DHNhB_qyAAkSl_qDtw6W6q_6Bj7kFLpC3_eSDYKNPCfjgnEtupUYCFWPjBic0BRpqXbXxpjhUnFdqhn9oqwSm-kfMfXq9tC3LGQ");'></div>
+<span class="font-bold text-white text-xs">Admin</span>
+<span class="text-[10px] text-gray-500">Yesterday</span>
+</div>
+<p class="text-gray-400 text-xs">Please remember to tag @Nova when requesting high-compute tasks.</p>
+</div>
+</div>
+<div>
+<h4 class="text-gray-400 font-bold text-xs uppercase mb-3 px-1">Online — 4</h4>
+<div class="flex items-center gap-3 px-2 py-1.5 rounded hover:bg-[#35373c] cursor-pointer group opacity-100">
+<div class="relative">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCbI-fSD9sAwWqs1wlwzw9ln6SHNqxrvw5gh_M5sx815gcM6fym0MikZDmU6fOWb4CgMLCkD9TRBLJT54MFjhlvCfMbmnYy_QBH2ZmmQ7U2t60Wh37OqVuclReWaOu5_y2b-nBjL46nX4Opv8WmTE2t6fjbsTBFlHl5jNo8edC_DHNhB_qyAAkSl_qDtw6W6q_6Bj7kFLpC3_eSDYKNPCfjgnEtupUYCFWPjBic0BRpqXbXxpjhUnFdqhn9oqwSm-kfMfXq9tC3LGQ");'></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-[2.5px] border-[#2b2d31]"></div>
+</div>
+<div>
+<div class="flex items-center gap-1">
+<span class="text-sm font-medium text-white group-hover:underline">Admin</span>
+<span class="material-symbols-outlined text-yellow-500 text-[14px]" title="Server Owner">crown</span>
+</div>
+<div class="text-xs text-gray-400">Managing Ops</div>
+</div>
+</div>
+<div class="flex items-center gap-3 px-2 py-1.5 rounded hover:bg-[#35373c] cursor-pointer group opacity-100">
+<div class="relative">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD71DkOjc3YXLXHC02ZlyV_BGgd_qi7LWtadbRXazfmu3kAVf69W3nAd2my0E0BtrzJDCJ4MbqA8r3X-4bR12wkhGR-g7ekDvr3YckeaxmWISQi7XWZOqhtXleIRAhLGy0FlndWYsH28uzWd4g4_HDzWJgzRC066gj2q9CZkc2B4TxoXmxv0-lCqwE2QRm9pFOPSsTrr4fJBY3ExnrQWzWaMYLyyJRvVUWC0KPL_Ds3NbEJnALW0x-L_JZnsSIuCEs6OIhdfzoNcvM");'></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-[2.5px] border-[#2b2d31]"></div>
+</div>
+<div>
+<div class="flex items-center gap-1">
+<span class="text-sm font-medium text-white group-hover:underline">Nova AI</span>
+<span class="bg-primary text-white text-[9px] font-bold px-1 rounded uppercase">Bot</span>
+</div>
+<div class="text-xs text-gray-400">Running v2.4.0</div>
+</div>
+</div>
+<div class="flex items-center gap-3 px-2 py-1.5 rounded hover:bg-[#35373c] cursor-pointer group opacity-100">
+<div class="relative">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBsn5EWNjw3Ph80o1aCQuafu9Tv0-yF_YXpBku1YI5iqGjl9Zi3vyWDZ8T_uiiJtShtx2DEzB1hx-ER1YHK7i7IwPNCfxXPg45EH8okXL3mkmZam5rhb-SNWColkfXn0O_hxrgmCJ--oMrSRdt2_snd4q7a0CteozBxELlaj_xtbupAsfZmzMzYcFOPxXySZpRp1_uprPv6MG4jZRjLBgAJlN3T_Hdb9phBbtOgWGM3OafGA_GE3iJIh5tdB0TJxD9KeAHLyQ465gk");'></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-[2.5px] border-[#2b2d31]"></div>
+</div>
+<div>
+<div class="flex items-center gap-1">
+<span class="text-sm font-medium text-white group-hover:underline">Codex</span>
+<span class="bg-primary text-white text-[9px] font-bold px-1 rounded uppercase">Bot</span>
+</div>
+<div class="text-xs text-gray-400">Writing patches...</div>
+</div>
+</div>
+<div class="flex items-center gap-3 px-2 py-1.5 rounded hover:bg-[#35373c] cursor-pointer group opacity-100">
+<div class="relative">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA9DQl3S-U_90VCP5djMLcpc0kcRlJweXP9f3EiuhBxWBsqQxOSY971Doi2ye41nVQos5sZBHu-G-_3mqhjL7qf2uWvdccyxdOADnX9bmo-peEXa667qE7OFyYB_GIgs2YgtWdG3FJbDOYVlLdymCdZmeWvX2Ax4uiMqjcNIJ0qfuIBqDW8BeWeywxMbGDeSUQ5gQrTjZ9LMr3GXva6m9KA88LpRIBqzQcwlaAolGpZanQaql4_K-u4F7Qw3mxxYXUDvGKvBJndvh4");'></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full border-[2.5px] border-[#2b2d31]">
+<div class="absolute inset-0 m-auto w-1.5 h-0.5 bg-[#2b2d31] rounded-full"></div>
+</div>
+</div>
+<div>
+<span class="text-sm font-medium text-white group-hover:underline">Sarah</span>
+<div class="text-xs text-gray-400">Do Not Disturb</div>
+</div>
+</div>
+<h4 class="text-gray-400 font-bold text-xs uppercase mb-3 px-1 mt-4">Offline — 12</h4>
+<div class="flex items-center gap-3 px-2 py-1.5 rounded hover:bg-[#35373c] cursor-pointer group opacity-50 hover:opacity-100">
+<div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-400 text-sm">person</span>
+</div>
+<div>
+<span class="text-sm font-medium text-gray-400 group-hover:text-gray-300">DevTeam_01</span>
+</div>
+</div>
+<div class="flex items-center gap-3 px-2 py-1.5 rounded hover:bg-[#35373c] cursor-pointer group opacity-50 hover:opacity-100">
+<div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-400 text-sm">person</span>
+</div>
+<div>
+<span class="text-sm font-medium text-gray-400 group-hover:text-gray-300">Analyst_Core</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+
+</body></html>

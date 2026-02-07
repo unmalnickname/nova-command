@@ -2,7 +2,7 @@
 
 > **Version:** 1.0.0
 > **Date:** February 7, 2026
-> **Status:** UI Design Complete, Backend Ready, Integration Pending
+> **Status:** UI Design Complete (21 Screens), Backend Ready, React Conversion Pending
 
 ---
 
@@ -104,25 +104,70 @@ A custom platform that:
 | **Agent Factory** | Spawn new agents | UI: ✅ Done |
 | **Settings** | Doppler integration | UI: ✅ Done |
 
-### Missing Features (Phase 2)
+### Additional Features (Now Complete)
 
-| Feature | Description | Priority |
-|---------|-------------|----------|
-| **Text Channels** | Discord-style #channels | High |
-| **Thread Replies** | Reply in thread | Medium |
-| **@Mentions** | Autocomplete + notifications | High |
-| **Reactions** | Emoji reactions | Low |
-| **Activity Feed** | Timeline view | Medium |
-| **Task Comments** | Comment on tasks | High |
-| **Right Panel** | Context sidebar | Low |
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **Text Channels** | Discord-style #channels | UI: ✅ Done |
+| **Thread Replies** | Reply in thread | UI: ✅ Done |
+| **@Mentions** | Autocomplete + notifications | UI: ✅ Done |
+| **Reactions** | Emoji reactions | UI: ✅ Done |
+| **Activity Feed** | Timeline view | UI: ✅ Done |
+| **Task Detail Modal** | Full task view with comments | UI: ✅ Done |
+| **Right Panel** | Context sidebar | UI: ✅ Done |
+| **Command Palette** | Cmd+K navigation | UI: ✅ Done |
+| **Search Overlay** | Neural search | UI: ✅ Done |
+| **Debug Stream** | Agent debug view | UI: ✅ Done |
 
 ---
 
-## UI Screens (Stitch Generated)
+## UI Screens (Stitch Generated - 21 Total)
 
-### 1. Mission Control Dashboard
-**File:** `nova_command_mission_control_dashboard/`
+### Core Screens (8)
 
+| # | Screen | File | Description |
+|---|--------|------|-------------|
+| 1 | Mission Control Dashboard | `mission_control_dashboard/` | Main hub: channels, telemetry, chat |
+| 2 | Agent Codex Monitoring | `agent_codex_monitoring/` | Real-time streaming, metrics |
+| 3 | Voice Operations Room | `voice_operations_room/` | Multi-agent voice calls |
+| 4 | Task Kanban Board | `task_kanban_board/` | Backlog, In Progress, Done |
+| 5 | Automated Daily Standup | `automated_daily_standup/` | AI summary, blockers |
+| 6 | Memory & Knowledge Base | `memory_&_knowledge_base/` | WORKING.md editor |
+| 7 | Agent Factory Builder | `agent_factory_builder/` | Spawn new agents |
+| 8 | Secrets & Settings | `secrets_&_platform_settings/` | Doppler integration |
+
+### New Feature Screens (7)
+
+| # | Screen | File | Description |
+|---|--------|------|-------------|
+| 9 | Channel Navigation | `channel_navigation_sidebar/` | Discord-style #channels |
+| 10 | @Mention Autocomplete | `agent_mention_autocomplete/` | Type @ to mention agents |
+| 11 | Task Detail Modal | `task_management_detail/` | Full task view + comments |
+| 12 | Thread Reply Panel | `thread_reply_panel/` | Slide-out thread panel |
+| 13 | Activity Feed | `operations_activity_feed/` | Timeline of all events |
+| 14 | Reactions | `message_reaction_system/` | Emoji reactions on messages |
+| 15 | Context Panel | `view_context_panel/` | Right panel: members, tasks |
+
+### Utility Screens (4)
+
+| # | Screen | File | Description |
+|---|--------|------|-------------|
+| 16 | Command Palette | `tactical_command_palette/` | Cmd+K navigation |
+| 17 | Search Overlay | `neural_search_overlay/` | Global search |
+| 18 | Debug Stream | `agent_debug_stream/` | Agent debug output |
+| 19 | Voice Overlay | `voice_ops_overlay/` | Floating voice controls |
+
+### Voice Room Variants (10)
+
+| # | Screen | File | Description |
+|---|--------|------|-------------|
+| 20-29 | Voice Rooms 1-10 | `voice_operations_room_1-10/` | Different voice states |
+
+---
+
+### Screen Details
+
+#### 1. Mission Control Dashboard
 Primary hub showing:
 - Operations channels sidebar
 - Voice uplink with active room
@@ -132,9 +177,7 @@ Primary hub showing:
 - Real-time message feed
 - Chat input with voice indicator
 
-### 2. Agent Codex Monitoring
-**File:** `nova_command_agent_codex_monitoring/`
-
+#### 2. Agent Codex Monitoring
 Real-time agent view:
 - Live Feed / Errors / History tabs
 - Streaming log (SYSTEM, THOUGHT, ACTION, SUCCESS, MEMORY)
@@ -144,9 +187,7 @@ Real-time agent view:
 - Pause Stream / Auto-scroll controls
 - Delegate New Task / Force Stop buttons
 
-### 3. Voice Operations Room
-**File:** `nova_command_voice_operations_room/`
-
+#### 3. Voice Operations Room
 Multi-agent voice:
 - Voice channels sidebar
 - Participant grid (avatars + status)
@@ -157,9 +198,7 @@ Multi-agent voice:
 - Share Screen button
 - Volume controls
 
-### 4. Task Kanban Board
-**File:** `nova_command_task_kanban_board/`
-
+#### 4. Task Kanban Board
 Task management:
 - Backlog / In Progress / AI Processing columns
 - Task cards with ID, title, tags
@@ -169,9 +208,7 @@ Task management:
 - Filter and search
 - Add Task button
 
-### 5. Automated Daily Standup
-**File:** `nova_command_automated_daily_standup/`
-
+#### 5. Automated Daily Standup
 Daily summary:
 - Standup pulse timeline (history)
 - Yesterday's Wins section
@@ -183,9 +220,7 @@ Daily summary:
 - Listen to Narration (audio!)
 - Active agents list
 
-### 6. Memory & Knowledge Base
-**File:** `nova_command_memory_&_knowledge_base/`
-
+#### 6. Memory & Knowledge Base
 Agent memory:
 - File tree (CORE_DIRECTIVES, PROJECT_OS, WORKING.md)
 - Daily notes folder
@@ -196,9 +231,7 @@ Agent memory:
 - Sync Memory button
 - Storage usage meter
 
-### 7. Agent Factory Builder
-**File:** `nova_command_agent_factory_builder/`
-
+#### 7. Agent Factory Builder
 Agent creation:
 - Core Identity (name, role)
 - Intelligence Model dropdown
@@ -210,9 +243,7 @@ Agent creation:
 - System log
 - Test Config / Initialize Agent buttons
 
-### 8. Secrets & Platform Settings
-**File:** `nova_command_secrets_&_platform_settings/`
-
+#### 8. Secrets & Platform Settings
 Configuration:
 - Doppler Secrets Management
 - API Keys table (masked)
@@ -221,6 +252,66 @@ Configuration:
 - Platform status badges
 - Security Score
 - Add Integration button
+
+#### 9. Channel Navigation Sidebar (NEW)
+Discord-style channels:
+- Collapsible categories (OPERATIONS, RESEARCH, SUPPORT)
+- # prefix for text channels
+- Unread count badges
+- Lock icon for restricted channels
+- User profile at bottom with voice/headphone icons
+
+#### 10. @Mention Autocomplete (NEW)
+Agent mentions:
+- Type @ to trigger dropdown
+- Filter as typing (e.g., "@fri")
+- Agent avatar + name + role
+- Online status indicator
+- Enter to select
+
+#### 11. Task Detail Modal (NEW)
+Full task view:
+- Project breadcrumb
+- Title, status, priority, deadline
+- Assignee avatars
+- Markdown description with code blocks
+- Discussion feed with agent comments
+- Reply input
+- Close / Mark as Done buttons
+
+#### 12. Thread Reply Panel (NEW)
+Thread conversations:
+- Slide-out from right
+- Original message context
+- Reply chain with timestamps
+- Human (blue) vs Agent (gray) messages
+- "Agents listening" indicator
+- Send button
+
+#### 13. Activity Feed (NEW)
+Operations log:
+- Tab filters: All Events, Tasks, Comments, System
+- Timeline entries with avatars
+- Task completion, comments, maintenance
+- Security alerts highlighted in red
+- Fleet metrics sidebar
+- Active agents list
+
+#### 14. Message Reactions (NEW)
+Emoji reactions:
+- Hover to reveal reaction bar
+- Common reactions: thumbs, heart, rocket, eyes, check
+- Reaction badges below message
+- Count for multiples
+
+#### 15. Context Panel (NEW)
+Right sidebar:
+- Channel description
+- Pinned messages (collapsible)
+- Channel members with status
+- Linked tasks with status badges
+- "+ Link new task" button
+- Storage/modified metadata
 
 ---
 
@@ -308,10 +399,11 @@ POST /openclaw/event
 
 ### Phase 1: UI Foundation (Current)
 - [x] Write platform spec
-- [x] Generate UI with Stitch AI
+- [x] Generate UI with Stitch AI (8 core screens)
 - [x] Set up Convex backend
-- [ ] Convert Stitch HTML to React
-- [ ] Add missing 7 features to Stitch
+- [x] Add missing 7 features to Stitch
+- [x] Generate bonus screens (command palette, search, debug)
+- [ ] Convert Stitch HTML to React ← **NEXT**
 - [ ] Integrate with Convex
 
 ### Phase 2: Agent Integration
@@ -366,22 +458,34 @@ POST /openclaw/event
 ```
 nova-command/
 ├── README.md
-├── BLUEPRINT.md          # This file
+├── BLUEPRINT.md                    # This file
 ├── docs/
-│   ├── PLATFORM_SPEC.md  # Complete UI spec
-│   ├── BACKEND_SPEC.md   # Convex + integrations
-│   └── STITCH_BRIEF.md   # Quick reference for Stitch
-├── stitch-output/        # Generated HTML/PNG from Stitch
-│   ├── mission_control_dashboard/
-│   ├── agent_codex_monitoring/
-│   ├── voice_operations_room/
-│   ├── task_kanban_board/
-│   ├── automated_daily_standup/
-│   ├── memory_knowledge_base/
-│   ├── agent_factory_builder/
-│   └── secrets_platform_settings/
-├── src/                  # React source (to be created)
-├── convex/               # Convex functions
+│   ├── PLATFORM_SPEC.md            # Complete UI spec
+│   ├── BACKEND_SPEC.md             # Convex + integrations
+│   └── STITCH_BRIEF.md             # Quick reference for Stitch
+├── stitch-output/                  # Generated HTML/PNG from Stitch (29 folders)
+│   ├── nova_command_mission_control_dashboard/
+│   ├── nova_command_agent_codex_monitoring/
+│   ├── nova_command_voice_operations_room/
+│   ├── nova_command_task_kanban_board/
+│   ├── nova_command_automated_daily_standup/
+│   ├── nova_command_memory_&_knowledge_base/
+│   ├── nova_command_agent_factory_builder/
+│   ├── nova_command_secrets_&_platform_settings/
+│   ├── nova_command_channel_navigation_sidebar/     # NEW
+│   ├── nova_command_agent_mention_autocomplete/     # NEW
+│   ├── nova_command_task_management_detail/         # NEW
+│   ├── nova_command_thread_reply_panel/             # NEW
+│   ├── nova_command_operations_activity_feed/       # NEW
+│   ├── nova_command_message_reaction_system/        # NEW
+│   ├── nova_command_view_context_panel/             # NEW
+│   ├── nova_command_tactical_command_palette/       # NEW
+│   ├── nova_command_neural_search_overlay/          # NEW
+│   ├── nova_command_agent_debug_stream/             # NEW
+│   ├── nova_command_voice_ops_overlay/              # NEW
+│   └── nova_command_voice_operations_room_1-10/     # Variants
+├── src/                            # React source (to be created)
+├── convex/                         # Convex functions
 └── public/
 ```
 

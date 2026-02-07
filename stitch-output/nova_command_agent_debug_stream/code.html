@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command Agent Debug Stream</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5966f3",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f0f0f",
+                        "surface-dark": "#16171d",
+                        "border-dark": "#282a39",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .terminal-scroll::-webkit-scrollbar { width: 4px; }
+        .terminal-scroll::-webkit-scrollbar-track { background: transparent; }
+        .terminal-scroll::-webkit-scrollbar-thumb { background: #282a39; border-radius: 10px; }
+        .pulse-border { border: 2px solid #5966f3; box-shadow: 0 0 15px rgba(89, 102, 243, 0.3); }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="h-14 flex items-center justify-between px-6 border-b border-solid border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark z-20">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl">terminal</span>
+<h1 class="text-lg font-bold tracking-tight">Nova Command</h1>
+</div>
+<div class="h-6 w-px bg-slate-200 dark:bg-border-dark mx-2"></div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold">Agent Debug Stream</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-green-500/10 text-green-500 uppercase tracking-wider border border-green-500/20">Live</span>
+</div>
+<p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Agent-0FF492 • Uptime: 04:12:44</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-xs font-mono">
+<div class="flex items-center gap-1.5 text-slate-500">
+<span class="material-symbols-outlined text-sm">wifi</span>
+<span>12ms</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-500">
+<span class="material-symbols-outlined text-sm">memory</span>
+<span>4.2GB / 8GB</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-500">
+<span class="material-symbols-outlined text-sm">computer</span>
+<span>12.4%</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-surface-dark rounded-lg transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="size-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold ring-2 ring-primary/20 ring-offset-2 ring-offset-background-dark">JD</div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex overflow-hidden">
+<!-- Main Viewport (Remote Desktop) -->
+<section class="flex-1 relative flex flex-col bg-slate-100 dark:bg-black p-4">
+<div class="flex-1 relative rounded-xl overflow-hidden border border-slate-300 dark:border-border-dark bg-slate-900 shadow-2xl group transition-all duration-300">
+<!-- Remote Desktop Image -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Dark high-tech coding environment or server terminal screen" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBAp3WZLrDF4UZHNG9OXfby07U8JZFGCyrP9tx_vSiJIB-owIek9ComdGCnU_SFklYfKGnc70ArjzxEMuh1_ub0AaTp2pAbcAyItH1PXu3suSPLLyfNHufy0QpZc2yQfKC0M_v3VUnVkpa-MrP6cee5Zf9bPAv53FOTdWu_hmyJw2zF-0eCv9qCH3UAdsaPI_SbRiUZjNk9vXfkpyvmL2Z61r58b12iKm9EHBWd9RkagelaVep73pltX7EHhz8JNcfQCf_MRFcwrjw');"></div>
+<!-- Overlay Diagnostics Layer -->
+<div class="absolute inset-0 pointer-events-none z-10">
+<!-- AI Thought Callouts -->
+<div class="absolute top-1/4 left-1/3 p-3 bg-black/80 backdrop-blur-md rounded-lg border border-primary/50 text-white max-w-[200px] shadow-lg animate-pulse">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-sm">psychology</span>
+<span class="text-[10px] font-bold text-primary uppercase">Agent Logic</span>
+</div>
+<p class="text-xs leading-relaxed">Scanning for selector <span class="text-primary font-mono">#login-submit</span> to complete auth flow.</p>
+<div class="absolute -bottom-2 left-4 w-4 h-4 bg-black/80 border-b border-r border-primary/50 rotate-45"></div>
+</div>
+<!-- Targeted Bounding Box -->
+<div class="absolute top-[45%] left-[40%] w-32 h-12 border-2 border-primary rounded shadow-[0_0_15px_rgba(89,102,243,0.5)]">
+<div class="absolute -top-5 left-0 px-1.5 py-0.5 bg-primary text-[10px] text-white font-bold uppercase rounded-t">Element Targeted</div>
+</div>
+<!-- Cursor Indicator -->
+<div class="absolute top-[48%] left-[42%] flex flex-col gap-1 items-center">
+<span class="material-symbols-outlined text-white text-shadow-lg scale-125">near_me</span>
+<span class="bg-black/40 px-2 py-0.5 rounded text-[10px] text-white backdrop-blur-sm">Agent Move</span>
+</div>
+</div>
+<!-- Stream Control HUD -->
+<div class="absolute top-4 right-4 flex gap-2">
+<div class="px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-lg flex items-center gap-2 text-[10px] font-bold text-white border border-white/10 uppercase">
+<span class="size-2 rounded-full bg-red-500 animate-pulse"></span>
+                        Recording 4K
+                    </div>
+<button class="p-1.5 bg-black/60 backdrop-blur-md rounded-lg text-white border border-white/10 hover:bg-black/80">
+<span class="material-symbols-outlined text-base">fullscreen</span>
+</button>
+</div>
+</div>
+<!-- Troubleshooting Toolbar -->
+<div class="h-20 flex items-center justify-center">
+<div class="flex items-center gap-2 bg-white dark:bg-surface-dark p-2 rounded-2xl border border-slate-200 dark:border-border-dark shadow-xl">
+<div class="flex items-center gap-1 px-2 border-r border-slate-200 dark:border-border-dark mr-1">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">pan_tool</span>
+                            Request Control
+                        </button>
+</div>
+<div class="flex items-center gap-1">
+<button class="flex flex-col items-center justify-center size-14 rounded-xl hover:bg-slate-100 dark:hover:bg-border-dark transition-colors group">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400 group-hover:text-primary">highlight</span>
+<span class="text-[9px] font-bold mt-1 text-slate-500 dark:text-slate-500 uppercase">Highlight</span>
+</button>
+<button class="flex flex-col items-center justify-center size-14 rounded-xl hover:bg-slate-100 dark:hover:bg-border-dark transition-colors group">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400 group-hover:text-primary">draw</span>
+<span class="text-[9px] font-bold mt-1 text-slate-500 dark:text-slate-500 uppercase">Annotate</span>
+</button>
+<button class="flex flex-col items-center justify-center size-14 rounded-xl hover:bg-slate-100 dark:hover:bg-border-dark transition-colors group">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400 group-hover:text-primary">camera</span>
+<span class="text-[9px] font-bold mt-1 text-slate-500 dark:text-slate-500 uppercase">Snapshot</span>
+</button>
+</div>
+<div class="w-px h-10 bg-slate-200 dark:bg-border-dark mx-2"></div>
+<button class="flex flex-col items-center justify-center size-14 rounded-xl hover:bg-red-500/10 transition-colors group">
+<span class="material-symbols-outlined text-red-500">stop_circle</span>
+<span class="text-[9px] font-bold mt-1 text-red-500 uppercase">Stop</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Debug Stream Sidebar -->
+<aside class="w-96 flex flex-col bg-white dark:bg-surface-dark border-l border-slate-200 dark:border-border-dark">
+<div class="p-4 border-b border-slate-200 dark:border-border-dark flex items-center justify-between">
+<h2 class="text-xs font-bold uppercase tracking-widest text-slate-500 flex items-center gap-2">
+<span class="size-2 rounded-full bg-primary"></span>
+                    Debug Stream
+                </h2>
+<div class="flex gap-2">
+<button class="material-symbols-outlined text-sm text-slate-400 hover:text-white">filter_list</button>
+<button class="material-symbols-outlined text-sm text-slate-400 hover:text-white">delete</button>
+</div>
+</div>
+<!-- Live Logs -->
+<div class="flex-1 overflow-y-auto p-4 terminal-scroll font-mono text-[11px] space-y-3">
+<div class="flex gap-3 text-slate-400">
+<span class="shrink-0 opacity-50">14:20:01</span>
+<p><span class="text-green-500 font-bold">[CORE]</span> Agent initialized browser environment successfully.</p>
+</div>
+<div class="flex gap-3 text-slate-400">
+<span class="shrink-0 opacity-50">14:20:05</span>
+<p><span class="text-primary font-bold">[NAV]</span> Navigating to <span class="underline decoration-primary/30">internal_portal.io</span></p>
+</div>
+<div class="flex gap-3 text-slate-400 bg-yellow-500/5 -mx-4 px-4 py-1 border-y border-yellow-500/10">
+<span class="shrink-0 opacity-50">14:20:08</span>
+<p><span class="text-yellow-500 font-bold">[WARN]</span> Vision module detected low contrast on CTA button <span class="text-slate-300">#btn-primary</span>.</p>
+</div>
+<div class="flex gap-3 text-slate-400">
+<span class="shrink-0 opacity-50">14:20:10</span>
+<p><span class="text-primary font-bold">[CORE]</span> User agent spoofed to Chrome 114.0.5735.198</p>
+</div>
+<div class="flex gap-3 text-red-400 bg-red-500/10 -mx-4 px-4 py-2 border-y border-red-500/20">
+<span class="shrink-0 opacity-50 text-red-300">14:20:12</span>
+<p><span class="font-bold uppercase">[CRITICAL]</span> Timeout after 5000ms waiting for element <span class="bg-red-500/20 px-1 rounded">#login-submit</span>. Agent retrying...</p>
+</div>
+<div class="flex gap-3 text-slate-400">
+<span class="shrink-0 opacity-50">14:20:15</span>
+<p><span class="text-blue-400 font-bold">[INFO]</span> Executing retry logic (Attempt 1/3)</p>
+</div>
+<div class="flex gap-3 text-slate-400">
+<span class="shrink-0 opacity-50">14:20:16</span>
+<p><span class="text-primary font-bold">[DOM]</span> Inspecting visibility properties of node <span class="text-slate-200">DIV.login-wrap</span></p>
+</div>
+<div class="flex gap-3 text-slate-400">
+<span class="shrink-0 opacity-50">14:20:18</span>
+<p><span class="text-green-500 font-bold">[EYE]</span> Optical character recognition found text: "Password required"</p>
+</div>
+<div class="flex gap-3 text-slate-400 animate-pulse">
+<span class="shrink-0 opacity-50">14:20:20</span>
+<p class="flex items-center">
+<span class="material-symbols-outlined text-[10px] mr-1">sync</span>
+                        Streaming system events...
+                    </p>
+</div>
+</div>
+<!-- Terminal Manual Override -->
+<div class="p-4 bg-slate-50 dark:bg-background-dark/50 border-t border-slate-200 dark:border-border-dark">
+<div class="mb-3 flex items-center justify-between">
+<label class="text-[10px] font-bold text-slate-500 uppercase flex items-center gap-1.5" for="override">
+<span class="material-symbols-outlined text-xs">terminal</span>
+                        Manual Override Input
+                    </label>
+<span class="text-[9px] text-primary font-bold px-1.5 py-0.5 rounded-sm bg-primary/10 border border-primary/20">ROOT ACCESS</span>
+</div>
+<div class="relative group">
+<div class="absolute inset-y-0 left-3 flex items-center text-primary">
+<span class="text-sm font-bold font-mono">$</span>
+</div>
+<input class="w-full h-10 bg-white dark:bg-background-dark border border-slate-200 dark:border-border-dark rounded-lg pl-8 pr-12 text-xs font-mono focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-inner outline-none placeholder:text-slate-600" id="override" placeholder="inject command..." type="text"/>
+<div class="absolute inset-y-0 right-2 flex items-center">
+<button class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors text-lg">subdirectory_arrow_left</button>
+</div>
+</div>
+<div class="mt-2 flex gap-2">
+<button class="px-2 py-1 bg-slate-200 dark:bg-surface-dark rounded text-[9px] font-bold text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-colors uppercase">inspect --all</button>
+<button class="px-2 py-1 bg-slate-200 dark:bg-surface-dark rounded text-[9px] font-bold text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-colors uppercase">force-reload</button>
+<button class="px-2 py-1 bg-slate-200 dark:bg-surface-dark rounded text-[9px] font-bold text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-colors uppercase">kill -9</button>
+</div>
+</div>
+</aside>
+</main>
+<!-- Global Connection Status Toast -->
+<div class="fixed bottom-6 left-6 z-50 pointer-events-none">
+<div class="flex items-center gap-3 bg-slate-900/90 dark:bg-surface-dark/95 backdrop-blur-lg border border-white/10 p-3 rounded-xl shadow-2xl pointer-events-auto">
+<div class="relative">
+<div class="size-10 rounded-full overflow-hidden border-2 border-primary/50">
+<img class="size-full object-cover" data-alt="Small AI profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYjKeVIf2IfR-1GxvQTGW81Bape0qbEk076Uy9bo4uqASfgQRy6xCfkNFjqeVu6Z1A7tCOpOHSMOeAldpzN09GWmUjXfKC0Hd4cRZcUInkj-XEGxd9ni8lmki7JQhGzw6EuJoqN92RQSlrNoSvFopHr8dwaqatoIly1AO3liaTqWGui_CwzXBSFAFMOe4vPe4Z1lmmKwR_QW46taMsD5smgVbuLKRqYlzoZmQ7sAfD7Oe5X-YR-5SiKAQfdm9T4X6dopF5SNkS4Z8"/>
+</div>
+<div class="absolute -bottom-0.5 -right-0.5 size-3 bg-green-500 rounded-full border-2 border-slate-900"></div>
+</div>
+<div>
+<h4 class="text-[11px] font-bold text-white uppercase tracking-wider">Agent Fleet Support</h4>
+<p class="text-[10px] text-slate-400">Monitoring troubleshooting session...</p>
+</div>
+</div>
+</div>
+</body></html>

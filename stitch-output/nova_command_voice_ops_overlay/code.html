@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command - Voice Ops Overlay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6659f3",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f0f0f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass {
+            background: rgba(42, 40, 57, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .speaking-glow {
+            box-shadow: 0 0 20px 2px rgba(102, 89, 243, 0.6);
+        }
+        .grid-bg {
+            background-image: radial-gradient(circle, #2a2839 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .pulse-overlay {
+            background: radial-gradient(circle at center, rgba(102, 89, 243, 0.05) 0%, transparent 70%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30 overflow-hidden h-screen w-screen">
+<!-- Subtle Grid Background -->
+<div class="fixed inset-0 grid-bg opacity-20 pointer-events-none"></div>
+<div class="fixed inset-0 pulse-overlay pointer-events-none"></div>
+<div class="relative flex h-full flex-col">
+<!-- Header / Top Bar -->
+<header class="flex items-center justify-between px-8 py-6 z-10">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Alpha-Ops Room</h1>
+<span class="px-2 py-0.5 rounded bg-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest border border-primary/30">Encrypted</span>
+</div>
+<div class="flex items-center gap-4 text-xs text-zinc-500 font-medium">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 04:20:15</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">signal_cellular_alt</span> 12ms Latency</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="glass p-2.5 rounded-lg hover:bg-zinc-800 transition-colors">
+<span class="material-symbols-outlined text-xl">settings</span>
+</button>
+<button class="glass p-2.5 rounded-lg hover:bg-zinc-800 transition-colors">
+<span class="material-symbols-outlined text-xl">group_add</span>
+</button>
+</div>
+</header>
+<main class="flex flex-1 relative px-8 pb-32">
+<!-- Sidebar: Participants -->
+<aside class="w-72 glass rounded-xl flex flex-col overflow-hidden h-fit max-h-full">
+<div class="p-4 border-b border-white/5 flex items-center justify-between">
+<h2 class="text-sm font-semibold text-zinc-400">PARTICIPANTS (5)</h2>
+<span class="material-symbols-outlined text-sm text-zinc-500">expand_more</span>
+</div>
+<div class="flex-1 overflow-y-auto p-2 flex flex-col gap-1">
+<!-- Operator -->
+<div class="flex items-center gap-3 p-2 rounded-lg bg-primary/10 border border-primary/20">
+<div class="relative">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Avatar of Sarah the human operator" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCLbyeafyA_RTioZThgxeqpXRpAfb5GDcV5n0F_HLn--KYTdhU3iis23KuZEPT7-GvAOe8I_C6Cw4QBKfAAvhkwu1dRjcQPVUd0Gr-W-lfPSwOTWNmKaXL3Wf0qQPLYO5Sdaox2JG2yymVHqPXsJuYOTFnQjD6BzuQ0poa73709FDBKsBivMHbmd7M-eQ9Biw9N6sON-HFje8xiR7tMC9hdGsztVjN37Q-Mb2QHKbOIVLxE0nfCFriUMn-fO-jgp0VjkAjuXdOay6E');"></div>
+<div class="absolute -bottom-0.5 -right-0.5 size-2.5 bg-green-500 border-2 border-background-dark rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-xs font-bold truncate">Sarah (You)</p>
+<p class="text-[10px] text-primary font-medium">Operator</p>
+</div>
+<span class="material-symbols-outlined text-sm text-primary">mic</span>
+</div>
+<!-- AI Agent 1 -->
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group">
+<div class="relative">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Avatar of AI Agent Nova-1" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDXWE0gmxfAY4kvwgK1lYuYrQABg1c-qi0d8R7niohQRJhvF0NQhGnUuknktPptFY77aJBhXeHQVK5CGS68-MCBkHIZ_KPRDw68Qvkmi5KS8JNDspUvbzPOGI-hCde-7Rv4GOTJQKH1Ac-M2hBCAHdeh3VVbq_Xi0RqRo-exMrwY9jM4CHOllOuwI8G9m2ylmZdVSIad3D7C7FvzKd2fQ_vbnyeXNdyTFd6pqGe4YNTAIzT_9ZRYtvZD1XWXLv46vrf8sgILaGPZl8');"></div>
+<div class="absolute -bottom-0.5 -right-0.5 size-2.5 bg-blue-400 border-2 border-background-dark rounded-full animate-pulse"></div>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-xs font-bold truncate">Nova-1</p>
+<p class="text-[10px] text-zinc-500 font-medium">Neural Agent</p>
+</div>
+<span class="material-symbols-outlined text-sm text-zinc-500">vibration</span>
+</div>
+<!-- AI Agent 2 -->
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Avatar of AI Agent Pulse" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDHQQukj6-DkGClu7vgRRvGhhbQHWp8e57BzzMWwb2AaTFVXat1f0W3tEo4NlSSYh1q-7NhK9I2JT3ES8r0Sk34QwiYY9VRuIqOIU9HWGSwtdDJo6sYBMXFar6oSBQ95aj2IOaHHy9al5W5zu36sP1Y9SDsSfuBpud7Iznrmas2rsWPTj_hvQiA7mnlS388juBUgjgNKjFz80DDFQ0Es6gPZFKblNnk_8afoqGDiDBLXjv_2fJtXvB1nELcKfIW78enIc5XPkwrqW8');"></div>
+<div class="flex-1 min-w-0">
+<p class="text-xs font-bold truncate">Pulse</p>
+<p class="text-[10px] text-zinc-500 font-medium">Logic Engine</p>
+</div>
+<span class="material-symbols-outlined text-sm text-zinc-600">mic_off</span>
+</div>
+<!-- Operator 2 -->
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Avatar of human operator Mike" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBSMf6PrWBHKlDT1PNAepCqVh_Ogw_CgMyrV3w0wxCHlj9vXEjs96eyUjPFRPiaxDUZzi4dYWexfxVODqFWwt28skymdUEjVEfZAmUr8VzofXCK-6E3o0tdtUM4r45K5JAj_3I5ClmYdDI7L_4fWMr_v5VEVbb6co5FA9vKvxvaXCHKaGvlzBNWCxifm3gCRmoyO6vM-0aQJ1zJSS1HLGyhz_qrB5_bTgk8yTIDAtdBxryP-IpHGimcFzM5fZeZAaZf-Wja4kQvFKs');"></div>
+<div class="flex-1 min-w-0">
+<p class="text-xs font-bold truncate">Mike</p>
+<p class="text-[10px] text-zinc-500 font-medium">Supervisor</p>
+</div>
+<span class="material-symbols-outlined text-sm text-zinc-600">headset_off</span>
+</div>
+</div>
+<div class="p-3 bg-white/5 border-t border-white/5">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Agent Load</span>
+<span class="text-[10px] text-primary font-bold">42%</span>
+</div>
+<div class="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[42%]"></div>
+</div>
+</div>
+</aside>
+<!-- Center Stage: Active Avatars -->
+<div class="flex-1 flex items-center justify-center p-12">
+<div class="grid grid-cols-2 gap-16 max-w-4xl w-full">
+<!-- Speaker 1 (Human) -->
+<div class="flex flex-col items-center gap-6">
+<div class="relative">
+<!-- Visualizer Ring -->
+<div class="absolute -inset-4 rounded-full border-2 border-primary/20 animate-ping opacity-20"></div>
+<div class="absolute -inset-2 rounded-full border-2 border-primary/40 opacity-40"></div>
+<div class="size-48 rounded-full border-4 border-primary p-1 bg-background-dark speaking-glow">
+<div class="w-full h-full rounded-full bg-cover bg-center" data-alt="Active speaker Sarah operator" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAE0Z5_q53kwMsU1rOlXXXM0mMBOv5ISysKtM_kYGdZe2lOtyKquJe29IB3a8iOGEiHDsGke-NoHu6_7Agj0oyaFJ1LfmJuZTGNcw3tRxEJXh9CgiomJ7GMB69PKVvxf9vQXEjezLV4cDWxok3H67wiKV-ByR4z5vS8kPIOzOeQaCEw84Jcbtr9gm30uv6lGVtJnIgFm67QrzUs-ZLrIYga-6gjKiHvwZH2xvCHsoWR6FN9ya1CI2HKKA46EoZ_lkPGtFmCZr7HM1Q');"></div>
+</div>
+<!-- Status Badge -->
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 glass px-3 py-1 rounded-full flex items-center gap-2">
+<span class="size-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Sarah</span>
+</div>
+</div>
+<!-- Simple Waveform -->
+<div class="flex items-center gap-1 h-8">
+<div class="w-1 bg-primary rounded-full h-4 animate-bounce"></div>
+<div class="w-1 bg-primary rounded-full h-8 animate-bounce" style="animation-delay: 0.1s"></div>
+<div class="w-1 bg-primary rounded-full h-6 animate-bounce" style="animation-delay: 0.2s"></div>
+<div class="w-1 bg-primary rounded-full h-7 animate-bounce" style="animation-delay: 0.3s"></div>
+<div class="w-1 bg-primary rounded-full h-5 animate-bounce" style="animation-delay: 0.4s"></div>
+</div>
+</div>
+<!-- Speaker 2 (AI Agent) -->
+<div class="flex flex-col items-center gap-6">
+<div class="relative">
+<div class="size-48 rounded-full border-4 border-white/10 p-1 bg-background-dark transition-all duration-500">
+<div class="w-full h-full rounded-full bg-cover bg-center opacity-60 grayscale hover:grayscale-0 transition-all" data-alt="AI Agent Nova-1 on standby" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7aCxxcgyAgKJVxtXLMTwzyU4LuY2Du0ze_gKfE_XDcG17QCYPjzhW6JObhI0IOsCFwM6ER1ccoNiHh1cZ0td45VdRcKRhABH-3i2CTMp_clQdb8T8jOXQhfiAZS4aBCbV5MLiB9rLftOHKQkS58gL-pTuR1ldbotDqNzsPS3lO-YrIfBQzM_r5TMzhDJE1ykvSQnFWZVDj9LYsCnengNvHM6e8TRNi20ItmE4JMc5N1Esaxq--13t5dnMxSQfHfKCKtIXneFI6fs');"></div>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 glass px-3 py-1 rounded-full flex items-center gap-2">
+<span class="size-2 rounded-full bg-zinc-600"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Nova-1</span>
+</div>
+<!-- Data Overlay -->
+<div class="absolute -right-12 top-4 glass p-2 rounded-lg border-primary/30 flex flex-col gap-1 w-24">
+<p class="text-[8px] text-zinc-500 font-bold uppercase">Processing</p>
+<p class="text-[10px] font-mono text-primary">0.14 T/s</p>
+</div>
+</div>
+<!-- Thinking Indicator -->
+<div class="flex items-center gap-2 text-xs text-zinc-500 font-medium">
+<span class="flex gap-1">
+<span class="size-1 bg-zinc-600 rounded-full animate-bounce"></span>
+<span class="size-1 bg-zinc-600 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+<span class="size-1 bg-zinc-600 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+</span>
+                            Listening...
+                        </div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Command Bar -->
+<footer class="fixed bottom-10 left-1/2 -translate-x-1/2 z-20">
+<div class="glass p-2 rounded-2xl flex items-center gap-2 shadow-2xl">
+<button class="group relative size-12 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined text-white">mic</span>
+<span class="absolute -top-10 scale-0 group-hover:scale-100 transition-transform bg-zinc-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider whitespace-nowrap">Mute (M)</span>
+</button>
+<button class="group relative size-12 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined text-white">headphones</span>
+<span class="absolute -top-10 scale-0 group-hover:scale-100 transition-transform bg-zinc-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider whitespace-nowrap">Deafen (D)</span>
+</button>
+<div class="w-px h-8 bg-white/10 mx-1"></div>
+<button class="group relative size-12 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined text-white">present_to_all</span>
+<span class="absolute -top-10 scale-0 group-hover:scale-100 transition-transform bg-zinc-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider whitespace-nowrap">Share Screen</span>
+</button>
+<button class="group relative size-12 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined text-white">terminal</span>
+<span class="absolute -top-10 scale-0 group-hover:scale-100 transition-transform bg-zinc-800 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider whitespace-nowrap">Prompt Input</span>
+</button>
+<div class="w-px h-8 bg-white/10 mx-1"></div>
+<button class="group relative h-12 px-6 flex items-center justify-center gap-2 rounded-xl bg-red-500/10 hover:bg-red-500 transition-all border border-red-500/30 text-red-500 hover:text-white">
+<span class="material-symbols-outlined">call_end</span>
+<span class="text-sm font-bold uppercase tracking-wider">Disconnect</span>
+<span class="absolute -top-10 scale-0 group-hover:scale-100 transition-transform bg-zinc-800 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider whitespace-nowrap">End Session</span>
+</button>
+</div>
+</footer>
+<!-- Bottom Right Tools -->
+<div class="fixed bottom-10 right-10 flex flex-col gap-3">
+<button class="glass size-10 rounded-lg flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">message</span>
+</button>
+<button class="glass size-10 rounded-lg flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">history_edu</span>
+</button>
+</div>
+</div>
+</body></html>

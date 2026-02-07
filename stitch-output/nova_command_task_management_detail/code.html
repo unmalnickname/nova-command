@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command - Task Management Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f0f0f",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #282e39;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-4 md:p-8">
+<!-- Modal Backdrop -->
+<div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-0"></div>
+<!-- Task Detail Modal -->
+<div class="relative z-10 w-full max-w-5xl bg-white dark:bg-[#161a23] rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh] overflow-hidden">
+<!-- Header Section -->
+<header class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">terminal</span>
+</div>
+<nav class="flex items-center gap-2 text-sm text-slate-500">
+<span class="hover:text-primary cursor-pointer">Projects</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100 font-medium">Core Intelligence</span>
+</nav>
+</div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</header>
+<!-- Main Content Area (Scrollable) -->
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<div class="px-8 py-6">
+<!-- Title & Meta Row -->
+<div class="flex flex-col gap-6">
+<div class="group relative">
+<h1 class="text-4xl font-bold tracking-tight text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/50 rounded px-1 -ml-1 transition-all" contenteditable="true">
+                            Optimize Neural Engine Pathing
+                        </h1>
+<span class="material-symbols-outlined absolute -right-8 top-2 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity text-sm">edit</span>
+</div>
+<!-- Metadata Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+<div class="space-y-1">
+<p class="text-xs uppercase tracking-wider text-slate-500 font-bold">Status</p>
+<div class="flex items-center gap-2 bg-primary/10 text-primary px-3 py-1.5 rounded-lg w-fit cursor-pointer hover:bg-primary/20 transition-colors">
+<span class="size-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-sm font-semibold">In Progress</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+<div class="space-y-1">
+<p class="text-xs uppercase tracking-wider text-slate-500 font-bold">Priority</p>
+<div class="flex items-center gap-2 bg-red-500/10 text-red-500 px-3 py-1.5 rounded-lg w-fit cursor-pointer hover:bg-red-500/20 transition-colors">
+<span class="material-symbols-outlined text-sm">priority_high</span>
+<span class="text-sm font-semibold">High Priority</span>
+</div>
+</div>
+<div class="space-y-1">
+<p class="text-xs uppercase tracking-wider text-slate-500 font-bold">Assignees</p>
+<div class="flex -space-x-2">
+<div class="size-8 rounded-full border-2 border-[#161a23] bg-cover bg-center" data-alt="Portrait of Commander Dave" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCY87ezsyFNYZDEeQP_vMXW-qZAmqE9o5JCTGkm9_1Lx3d3rEZWOZ_eBPWhOwTnEnalPTUqICbSkjajL0Pf2DycRvKIMXSvJ5G-zDCmS06H1dg_YLvct3ysT3xl-TFiC5HD8ELjcVYnDKd512j75Iec0WbEQt4tGWXKndIJlmGydmPjj3pmicN1RJXxoQe1Au6YTx5RoICgFBK4SwtPpM9FQofIoO8mNcDEej1QiLcvCJ1UwcpZun3jK0-yBK6-7VcUmQylmMUh_7o')"></div>
+<div class="size-8 rounded-full border-2 border-[#161a23] bg-primary flex items-center justify-center text-[10px] font-bold" title="Agent-X7">X7</div>
+<button class="size-8 rounded-full border-2 border-dashed border-slate-600 flex items-center justify-center hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-xs">add</span>
+</button>
+</div>
+</div>
+<div class="space-y-1">
+<p class="text-xs uppercase tracking-wider text-slate-500 font-bold">Deadline</p>
+<div class="flex items-center gap-2 text-slate-300 py-1.5">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span class="text-sm">Oct 24, 2024</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Description (Markdown Style) -->
+<div class="mt-8 space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">subject</span>
+                            Description
+                        </h3>
+<button class="text-xs text-primary hover:underline">Edit Markdown</button>
+</div>
+<div class="prose prose-invert max-w-none text-slate-400 leading-relaxed">
+<p>The current pathing algorithm in the <code class="text-primary bg-primary/5 px-1 rounded">Nova-V4</code> kernel is causing a 45ms overhead during high-concurrency inference cycles. We need to refactor the spatial mapping module.</p>
+<ul class="list-disc pl-5 space-y-2 mt-4">
+<li>Implement A* variant for low-latency neural traversal</li>
+<li>Reduce memory footprint of node metadata</li>
+<li>Ensure backward compatibility with <code class="text-slate-300">Core-V3</code> endpoints</li>
+</ul>
+<div class="mt-6 bg-[#0a0a0a] rounded-lg p-4 border border-slate-800 font-mono text-sm overflow-x-auto">
+<div class="flex items-center gap-2 mb-2 text-slate-500 text-xs">
+<span class="material-symbols-outlined text-xs">code</span> pathing_optimizer.py
+                            </div>
+<span class="text-purple-400">def</span> <span class="text-blue-400">optimize_path</span>(nodes, weights):<br/>
+                                <span class="text-slate-500"># TODO: Implement heuristic weight scaling</span><br/>
+                                <span class="text-blue-400">return</span> [n <span class="text-purple-400">for</span> n <span class="text-purple-400">in</span> nodes <span class="text-purple-400">if</span> n.weight &gt; threshold]
+                        </div>
+</div>
+</div>
+<!-- Comments Section -->
+<div class="mt-12 space-y-6">
+<h3 class="text-lg font-bold flex items-center gap-2 border-b border-slate-800 pb-2">
+<span class="material-symbols-outlined text-slate-400">chat_bubble</span>
+                        Discussion Feed
+                    </h3>
+<div class="space-y-6">
+<!-- Agent Comment -->
+<div class="flex gap-4">
+<div class="size-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(19,91,236,0.2)]">
+<span class="material-symbols-outlined text-primary">smart_toy</span>
+</div>
+<div class="flex-1 space-y-1">
+<div class="flex items-center gap-2">
+<span class="font-bold text-primary">Agent-X7</span>
+<span class="px-1.5 py-0.5 rounded bg-primary/20 text-[10px] font-black text-primary uppercase tracking-tighter">AI Agent</span>
+<span class="text-xs text-slate-500 ml-auto">2 minutes ago</span>
+</div>
+<div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50 text-slate-300 text-sm">
+                                    Initial analysis of the spatial mapping module complete. Proposed heuristic scaling will reduce latency by approximately <span class="text-green-400">18.4%</span> across all test vectors. Waiting for human override to proceed with branch creation.
+                                </div>
+</div>
+</div>
+<!-- Human Comment -->
+<div class="flex gap-4">
+<div class="size-10 rounded-lg bg-cover bg-center shrink-0" data-alt="Portrait of Commander Dave" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdB8byHlByA3Ea61Dw2NQUiOng0hjXJ7Dp59qMb_GINKP7OfFQdNVfGJhtfw4IJHRcy_Ip-1AVEF8B_lr3pxBf-KGs6U52pQJSPjFeUHMGuTRvThstUkgMSxhf2aHzaOYYHJDA9l2MSG33V-3hLEvdzU2K1LbTZB3IJdK5yCVTN59RhbOkEFNO6B1eJ5whUIPDJ75RGnbkCcNFzkwvopnngYPM1knX97gyCfUK0uOQkDyKVEMmJeTL8MNVbjSE_526INCti4mcrVk')"></div>
+<div class="flex-1 space-y-1">
+<div class="flex items-center gap-2">
+<span class="font-bold">Commander Dave</span>
+<span class="text-xs text-slate-500 ml-auto">Just now</span>
+</div>
+<div class="bg-primary/5 p-3 rounded-lg border border-primary/20 text-slate-300 text-sm">
+                                    Looks solid, X7. Please proceed with the optimization on branch <code class="bg-slate-800 px-1 rounded">feature/neural-path-v2</code>. Keep an eye on the memory ceiling.
+                                </div>
+</div>
+</div>
+<!-- Typing Indicator -->
+<div class="flex gap-4 items-center opacity-50">
+<div class="size-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-sm">smart_toy</span>
+</div>
+<div class="flex gap-1">
+<span class="size-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+<span class="size-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+<span class="size-1.5 bg-primary rounded-full animate-bounce"></span>
+</div>
+<span class="text-xs font-medium text-slate-500">Agent-X7 is computing...</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Actions -->
+<footer class="px-6 py-4 bg-slate-100 dark:bg-[#1c212b] border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between">
+<div class="relative w-full md:max-w-md">
+<input class="w-full bg-white dark:bg-[#111318] border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm focus:ring-primary focus:border-primary" placeholder="Reply to discussion..." type="text"/>
+<button class="absolute right-2 top-1.5 p-1 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">send</span>
+</button>
+</div>
+<div class="flex gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-6 py-2 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+                    Close
+                </button>
+<button class="flex-1 md:flex-none px-6 py-2 bg-primary text-white font-bold text-sm rounded-lg hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                    Mark as Done
+                </button>
+</div>
+</footer>
+</div>
+</body></html>

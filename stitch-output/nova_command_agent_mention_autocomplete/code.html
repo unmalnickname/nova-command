@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command Agent Mention Autocomplete</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5966f3",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101222",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .mention-highlight {
+            color: #5966f3;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased h-screen overflow-hidden">
+<div class="flex h-full w-full flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-white/10 bg-background-light dark:bg-background-dark px-6 py-3 shrink-0">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined">deployed_code</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Nova Command</h2>
+</div>
+<div class="hidden md:flex items-center bg-slate-200 dark:bg-white/5 rounded-lg px-3 py-1.5 border border-white/5">
+<span class="material-symbols-outlined text-slate-400 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-64 placeholder:text-slate-500" placeholder="Search logs or agents..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-px bg-white/10 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-white">Cmdr. Shepard</p>
+<p class="text-[10px] text-primary">System Admin</p>
+</div>
+<div class="size-9 rounded-full bg-gradient-to-tr from-primary to-blue-400 border border-white/20" data-alt="User profile avatar gradient"></div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 border-r border-white/10 bg-background-light dark:bg-background-dark hidden lg:flex flex-col p-4 shrink-0">
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-2">Navigation</p>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Agent Teams</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span>System Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span>Network</span>
+</a>
+</div>
+<div class="mt-8 space-y-1">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-2">Active Agents</p>
+<div class="flex items-center justify-between px-3 py-2 text-sm text-slate-300">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-green-500"></span>
+<span>Friday</span>
+</div>
+<span class="text-[10px] bg-white/5 px-1.5 py-0.5 rounded">Core</span>
+</div>
+<div class="flex items-center justify-between px-3 py-2 text-sm text-slate-300">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-green-500"></span>
+<span>HAL 9000</span>
+</div>
+<span class="text-[10px] bg-white/5 px-1.5 py-0.5 rounded">Logic</span>
+</div>
+<div class="flex items-center justify-between px-3 py-2 text-sm text-slate-300">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-slate-600"></span>
+<span class="text-slate-500">Fritz</span>
+</div>
+<span class="text-[10px] bg-white/5 px-1.5 py-0.5 rounded text-slate-500">Math</span>
+</div>
+</div>
+</aside>
+<!-- Main Chat Interface -->
+<main class="flex-1 flex flex-col bg-slate-50 dark:bg-[#0c0d16] relative">
+<!-- Message History -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- System Message -->
+<div class="flex gap-4 max-w-3xl">
+<div class="size-10 rounded-lg bg-slate-800 flex items-center justify-center text-primary shrink-0 border border-white/5">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-bold text-sm">Nova System</span>
+<span class="text-[10px] text-slate-500">10:00 AM</span>
+</div>
+<div class="bg-white dark:bg-white/5 p-3 rounded-xl rounded-tl-none border border-slate-200 dark:border-white/5 shadow-sm">
+<p class="text-sm leading-relaxed">System initialized. Neural pathways active across 12 distributed nodes. All specialized agents are standing by for task allocation.</p>
+</div>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex gap-4 max-w-3xl flex-row-reverse ml-auto">
+<div class="size-10 rounded-lg bg-primary flex items-center justify-center text-white shrink-0 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div class="flex flex-col gap-1 items-end">
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-slate-500">10:05 AM</span>
+<span class="font-bold text-sm">Commander</span>
+</div>
+<div class="bg-primary text-white p-3 rounded-xl rounded-tr-none shadow-sm">
+<p class="text-sm leading-relaxed">Status check on regional data synthesis. Who is available?</p>
+</div>
+</div>
+</div>
+<!-- Agent Message -->
+<div class="flex gap-4 max-w-3xl">
+<div class="size-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500 shrink-0">
+<span class="material-symbols-outlined">neurology</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-bold text-sm">Friday</span>
+<span class="text-[10px] text-slate-500">10:06 AM</span>
+</div>
+<div class="bg-white dark:bg-white/5 p-3 rounded-xl rounded-tl-none border border-slate-200 dark:border-white/5 shadow-sm">
+<p class="text-sm leading-relaxed">Analysis of the last dataset is complete. I've indexed 4.2 million entries with a 99.8% confidence interval. Ready for next task.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Input Area with Autocomplete -->
+<div class="p-6 bg-gradient-to-t from-slate-50 dark:from-[#0c0d16] via-slate-50 dark:via-[#0c0d16] to-transparent">
+<div class="max-w-4xl mx-auto relative">
+<!-- MENTION AUTOCOMPLETE DROPDOWN -->
+<div class="absolute bottom-full left-0 mb-3 w-72 bg-white dark:bg-[#1e1e2d] border border-slate-200 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-2">
+<div class="px-3 py-2 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Select Agent</span>
+<span class="text-[10px] text-slate-400">Filtered by "fri"</span>
+</div>
+<div class="max-h-80 overflow-y-auto">
+<!-- Option 1 (Highlighted) -->
+<div class="group flex items-center gap-3 px-3 py-2.5 bg-primary text-white cursor-pointer transition-colors">
+<div class="relative">
+<div class="size-10 rounded-lg bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined">neurology</span>
+</div>
+<div class="absolute -bottom-0.5 -right-0.5 size-3 rounded-full bg-green-500 border-2 border-primary"></div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold">Friday</p>
+<p class="text-[10px] text-white/70">Strategic Analysis AI</p>
+</div>
+<span class="material-symbols-outlined text-sm">keyboard_return</span>
+</div>
+<!-- Option 2 -->
+<div class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer transition-colors">
+<div class="relative">
+<div class="size-10 rounded-lg bg-slate-200 dark:bg-white/10 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined">precision_manufacturing</span>
+</div>
+<div class="absolute -bottom-0.5 -right-0.5 size-3 rounded-full bg-slate-500 border-2 border-white dark:border-[#1e1e2d]"></div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold">Fritz</p>
+<p class="text-[10px] text-slate-500">Hardware Integration</p>
+</div>
+</div>
+<!-- Option 3 -->
+<div class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer transition-colors">
+<div class="relative">
+<div class="size-10 rounded-lg bg-slate-200 dark:bg-white/10 flex items-center justify-center text-slate-500 overflow-hidden">
+<img alt="Frida Kahlo AI" class="w-full h-full object-cover" data-alt="Portrait of an AI agent avatar with artistic elements" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAanl_rJh-7UXSRvElctUi3eRWtXo9vLL0Kso_4sLFD5_Af11RrOLfRSV9QZzD_v75SP2oapkDxXnrVTw3yfqhRPT4Jysrx7GKjtBrOIZ7dpMBtrfa-uBSpDhYDAtpEvkYb7wL7wGC-BHZKi0XndkA_HHdDXhNMqYeKRWTg7DF3Pgv76grTxX-X5W8RnNlcQPriL8J3F9u2W-tb1La7dJTzjeEC4maoMJecDNqV0EbjGfTfgg0lLkH2vTGHjficxo51Uiuvh-JpkEM"/>
+</div>
+<div class="absolute -bottom-0.5 -right-0.5 size-3 rounded-full bg-green-500 border-2 border-white dark:border-[#1e1e2d]"></div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold">Frida Kahlo AI</p>
+<p class="text-[10px] text-slate-500">Creative Synthesis</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Input Field -->
+<div class="relative flex items-center">
+<div class="absolute left-4 text-primary">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+<input class="w-full bg-white dark:bg-[#1e1e2d] border-2 border-primary rounded-xl pl-12 pr-24 py-4 text-slate-900 dark:text-white focus:ring-4 focus:ring-primary/20 transition-all shadow-xl" type="text" value="Synthesizing regional reports, I need @fri"/>
+<div class="absolute right-3 flex items-center gap-2">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<button class="px-4 py-2 bg-primary text-white rounded-lg font-bold text-sm shadow-lg shadow-primary/30 flex items-center gap-2">
+<span>Send</span>
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+<p class="mt-2 text-[10px] text-slate-500 text-center uppercase tracking-widest font-medium">Use @ to mention an agent • Use / for commands</p>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

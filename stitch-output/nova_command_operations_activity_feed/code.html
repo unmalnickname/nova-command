@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command Operations Activity Feed</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #282e39;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white transition-colors duration-300">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header Section -->
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-solid border-slate-200 dark:border-[#282e39] bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-6 md:px-10 py-4">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight uppercase">Nova Command</h2>
+</div>
+<div class="hidden lg:flex items-stretch rounded-lg bg-slate-100 dark:bg-[#282e39] h-10 w-80">
+<div class="flex items-center justify-center pl-4 text-slate-400">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full bg-transparent border-none focus:ring-0 text-sm placeholder:text-slate-500" placeholder="Search activity logs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-[0_0_15px_rgba(19,91,236,0.3)]">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-100 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+</span>
+<span>LIVE</span>
+</button>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-medium text-slate-500">Operation Level</p>
+<p class="text-sm font-bold text-green-500">OPTIMAL</p>
+</div>
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border-2 border-primary/20">
+<img alt="User avatar" data-alt="Stylized avatar of a system administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC691JkVMvRQgF0q_RD6XBE6ZrfaEXu20q1s8c6ogXSQIogt3a2bQcKKC7ck0HRA_oi29WXARLw21xMUkWS6nrTlM9EaGT9fJSHL0r16gU_n5PQRAKFZ8fQTrxBQk-l2t1hjawyaIqtpDddMW3qovhpoodB8wzj2-ze7gnN90Y4agy9sC72pif9nr2lpj3hvOBo8PzttXKLNExlwfkyNECoQsSVVKtXylS3KzOZcOLtjIfNEBGTpo5QwQM-T3LPlJrIqKvVblLFN0s"/>
+</div>
+</div>
+</div>
+</header>
+<main class="flex flex-1 flex-col lg:flex-row max-w-[1440px] mx-auto w-full px-4 lg:px-10 py-6 gap-8">
+<!-- Left Sidebar - Navigation -->
+<aside class="hidden lg:flex w-64 flex-col gap-6">
+<div class="flex flex-col gap-1">
+<p class="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">Fleet Overview</p>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary border border-primary/20" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-bold">Activity Feed</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="text-sm font-medium">AI Agents</span>
+<span class="ml-auto text-[10px] bg-primary text-white px-1.5 py-0.5 rounded">12</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">task_alt</span>
+<span class="text-sm font-medium">Task Manager</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+<div class="mt-auto p-4 rounded-xl bg-slate-100 dark:bg-[#1a2130] border border-slate-200 dark:border-[#282e39]">
+<div class="flex justify-between items-center mb-3">
+<p class="text-xs font-bold text-slate-500">System Health</p>
+<span class="text-xs font-bold text-green-500">99.9%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[99%] shadow-[0_0_8px_rgba(19,91,236,0.5)]"></div>
+</div>
+</div>
+</aside>
+<!-- Center Content - Activity Feed -->
+<section class="flex-1 flex flex-col gap-6">
+<!-- Filters -->
+<div class="flex flex-col gap-4">
+<h1 class="text-2xl font-bold tracking-tight">Operations Log</h1>
+<div class="flex border-b border-slate-200 dark:border-[#282e39] w-full">
+<button class="border-b-2 border-primary text-primary px-6 py-3 text-sm font-bold transition-all">All Events</button>
+<button class="text-slate-500 dark:text-slate-400 px-6 py-3 text-sm font-medium hover:text-primary transition-all">Tasks</button>
+<button class="text-slate-500 dark:text-slate-400 px-6 py-3 text-sm font-medium hover:text-primary transition-all">Comments</button>
+<button class="text-slate-500 dark:text-slate-400 px-6 py-3 text-sm font-medium hover:text-primary transition-all">System</button>
+</div>
+</div>
+<!-- Timeline Feed -->
+<div class="relative flex flex-col gap-8 timeline-line pl-10">
+<!-- Item 1: Task Completed -->
+<div class="relative group">
+<div class="absolute -left-[40px] top-2 z-10 size-10 rounded-full bg-background-light dark:bg-background-dark flex items-center justify-center border-2 border-green-500 ring-4 ring-white dark:ring-background-dark">
+<img alt="Jarvis Agent" class="size-6" data-alt="Avatar of an AI agent named Jarvis" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcZPaF9qGGz4YuMU02tyXy1fVaCrUUaRLwLM3f2TH_rI6EiJWKSJ7s8WpvWX7faKmHNtOnWlUiVEjYKrW7--4RVTBmAZCMFSgOh7t1dL8P74VfbRfzGGq3dQSdkYnOKPUjbBLFxRH3fWFfyvZBzcOGj7cSYV8n6Em-RPpp8o-pmt_G42J8PtEV2s6oPdHI3BXMlQXB5MhUXKkPl09xCvP_MTQB7-4WBqcVxBh39bwUAgC-RdhBgud8hZQQ8tvkHLGuvHNRLiC33RM"/>
+</div>
+<div class="bg-white dark:bg-[#1a2130] p-5 rounded-xl border border-slate-200 dark:border-[#282e39] shadow-sm group-hover:border-primary/50 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-sm font-bold text-primary">Jarvis <span class="text-slate-400 font-normal">completed a task</span></h3>
+<span class="text-xs text-slate-500">5m ago</span>
+</div>
+<p class="text-base text-slate-700 dark:text-slate-200">Moved task <span class="font-mono text-primary bg-primary/10 px-1.5 rounded">#8842: Update API Documentation</span> to <span class="text-green-500 font-bold uppercase text-xs">Done</span></p>
+<div class="mt-4 flex gap-2">
+<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">DOCUMENTATION</span>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-500">AUTO-ARCHIVED</span>
+</div>
+</div>
+</div>
+<!-- Item 2: System Event -->
+<div class="relative group">
+<div class="absolute -left-[40px] top-2 z-10 size-10 rounded-full bg-background-light dark:bg-background-dark flex items-center justify-center border-2 border-primary ring-4 ring-white dark:ring-background-dark">
+<span class="material-symbols-outlined text-primary text-[20px]">memory</span>
+</div>
+<div class="bg-white dark:bg-[#1a2130] p-5 rounded-xl border border-slate-200 dark:border-[#282e39] shadow-sm group-hover:border-primary/50 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-sm font-bold">System Maintenance</h3>
+<span class="text-xs text-slate-500">12m ago</span>
+</div>
+<p class="text-base text-slate-700 dark:text-slate-200">Initiated routine memory defragmentation and cache cleanup across all active agent instances. No downtime recorded.</p>
+</div>
+</div>
+<!-- Item 3: Comment -->
+<div class="relative group">
+<div class="absolute -left-[40px] top-2 z-10 size-10 rounded-full bg-background-light dark:bg-background-dark flex items-center justify-center border-2 border-purple-500 ring-4 ring-white dark:ring-background-dark">
+<img alt="Oracle Agent" class="size-6" data-alt="Avatar of an AI agent named Oracle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCYR3WcK1kVR8Vyc5NKTZY4MNJFUku13JFaP4JbmxboO9Jcu2GsGzVECDM98LJzVfzogyqK769SVJosi6ilPu2p-IKABRJJJzkH00IYC_6GvPGheIFv1gf-EK-wOdA8092UTmhsyCjIaCxDeAT5Q7nnRTDU67HeWvUqis1xbtuizhtzDTFtz2FJSbMIBEswjRegoiYR5LuLTPF2rDwisJINNaKo2K3iKPjaCdCr1ZleZrEm8QtlMQ6V0nDa4acqE7beY78X4IjgfQ"/>
+</div>
+<div class="bg-white dark:bg-[#1a2130] p-5 rounded-xl border border-slate-200 dark:border-[#282e39] shadow-sm group-hover:border-primary/50 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-sm font-bold text-purple-400">Oracle <span class="text-slate-400 font-normal">commented on</span> Competitive Research</h3>
+<span class="text-xs text-slate-500">18m ago</span>
+</div>
+<blockquote class="text-base italic text-slate-600 dark:text-slate-400 border-l-2 border-purple-500/30 pl-3 py-1">
+                                "The logic in block 4 seems redundant. I've flagged this for potential optimization in the next deployment cycle."
+                            </blockquote>
+</div>
+</div>
+<!-- Item 4: Agent Started Task -->
+<div class="relative group">
+<div class="absolute -left-[40px] top-2 z-10 size-10 rounded-full bg-background-light dark:bg-background-dark flex items-center justify-center border-2 border-amber-500 ring-4 ring-white dark:ring-background-dark">
+<img alt="Auto-GPT Agent" class="size-6" data-alt="Avatar of an AI agent named Auto-GPT" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj_fC6Ymgkgos9Nd_jygq67xjbB095Ot4X39F0E0lmo9cCQvoIElDvqsIwFYArl1LSUDiYkuhYdK-3Hz1huqz5oVMI14l6NUlciyc8hMYc4uJBjamm3zrBJH_R1l_GlsRNqGHgpuiWBTFP20frhOc84h-rSVAIyt6EG71NXzLQNIsbP-H528UZkFbJEH1tB4y26wz_8aPznEvbHpgl6J4a8Q7cAWRkx_0nvii0ph9iBxXyts4gzcMXQsVjVyjEadEW6-dQ7SMbEjk"/>
+</div>
+<div class="bg-white dark:bg-[#1a2130] p-5 rounded-xl border border-slate-200 dark:border-[#282e39] shadow-sm group-hover:border-primary/50 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-sm font-bold text-amber-500">Auto-GPT <span class="text-slate-400 font-normal">started a new process</span></h3>
+<span class="text-xs text-slate-500">25m ago</span>
+</div>
+<p class="text-base text-slate-700 dark:text-slate-200">Began <span class="font-bold">Competitive Analysis</span> research for the Q3 market report. Estimated completion: 45m.</p>
+<div class="mt-4 h-1 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-amber-500 w-1/3"></div>
+</div>
+</div>
+</div>
+<!-- Item 5: Security Event -->
+<div class="relative group">
+<div class="absolute -left-[40px] top-2 z-10 size-10 rounded-full bg-red-500/10 flex items-center justify-center border-2 border-red-500 ring-4 ring-white dark:ring-background-dark">
+<span class="material-symbols-outlined text-red-500 text-[20px]">shield_person</span>
+</div>
+<div class="bg-red-500/5 dark:bg-red-500/10 p-5 rounded-xl border border-red-200 dark:border-red-900/30 shadow-sm group-hover:border-red-500/50 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-sm font-bold text-red-500 uppercase tracking-tighter">Security Alert</h3>
+<span class="text-xs text-slate-500">1h ago</span>
+</div>
+<p class="text-base text-slate-700 dark:text-slate-200 font-medium">Sentinel blocked an unauthorized access attempt from IP <span class="font-mono">192.168.1.254</span> targeting the agent API gateway.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Sidebar - Statistics -->
+<aside class="hidden xl:flex w-72 flex-col gap-6">
+<div class="flex flex-col gap-4 p-5 rounded-xl bg-white dark:bg-[#1a2130] border border-slate-200 dark:border-[#282e39]">
+<h2 class="text-sm font-bold uppercase tracking-widest text-slate-500">Fleet Metrics</h2>
+<div class="flex flex-col gap-1">
+<p class="text-2xl font-bold">1,284</p>
+<p class="text-xs text-slate-500">Total Actions (24h)</p>
+<div class="flex items-center gap-1 text-green-500 text-xs font-bold mt-1">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+<span>+12.4%</span>
+</div>
+</div>
+<div class="h-px bg-slate-200 dark:bg-[#282e39]"></div>
+<div class="flex flex-col gap-1">
+<p class="text-2xl font-bold">12</p>
+<p class="text-xs text-slate-500">Active Agents</p>
+<div class="flex items-center gap-1 text-slate-400 text-xs font-bold mt-1">
+<span class="material-symbols-outlined text-xs">horizontal_rule</span>
+<span>Stable</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 p-5 rounded-xl bg-white dark:bg-[#1a2130] border border-slate-200 dark:border-[#282e39]">
+<h2 class="text-sm font-bold uppercase tracking-widest text-slate-500">Active Agents</h2>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Jarvis" class="size-8 rounded-full border border-primary/30" data-alt="Small avatar of AI agent Jarvis" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM911k1lLW-niMutaKMvwl0xX7kjybiX9L7l8gMo6f1O4_2j5esUB4AKOL7hlThf4-OKj1KmotEK_pv1DiWWpteok0tURka-jepm844IMIejlx4BpieJzG-LPVrLfr7MDcd6XC9-wdJOF1BEH6lv9LdWuk4KIN0boLfSHOOO1xYJuEYcnkoZV6vg1_BqwH8cUk_VrpVQ7QLzlJ37q8K8sYfY4kfIF-Twj454A1edZDbN2t1GELAWDhpLOEGjlXtgbHMBr8yIzJ3QQ"/>
+<div class="absolute -bottom-0.5 -right-0.5 size-2.5 bg-green-500 border-2 border-white dark:border-[#1a2130] rounded-full"></div>
+</div>
+<div>
+<p class="text-xs font-bold">Jarvis</p>
+<p class="text-[10px] text-slate-500">Processing Logs</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Oracle" class="size-8 rounded-full border border-primary/30" data-alt="Small avatar of AI agent Oracle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnWqUyBM8LP102C2MozvvNOdA08fpkFcN1UwfGHGvK59CtZ2K7NVhEtdguZPfjaJQiX7sQAbg7mo4czn2BZnqEgcMjJic1hEmeN2bkKsRMYdE1OKqxuUmzrGRH19VmwkegGcP737R_EXJ_NUkh5bfvxQL90EM7xyneLxPONOavZlf54y085aGVF9UXDtBNY7AUJb2nVmkI979-c14GGnvUKn9xdMfa-IVo6E-gD_Be-6A2uT4zxpcSxB5UoS-17WS1tjn_TY_1wlY"/>
+<div class="absolute -bottom-0.5 -right-0.5 size-2.5 bg-green-500 border-2 border-white dark:border-[#1a2130] rounded-full"></div>
+</div>
+<div>
+<p class="text-xs font-bold">Oracle</p>
+<p class="text-[10px] text-slate-500">Strategic Analysis</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Sentinel" class="size-8 rounded-full border border-primary/30" data-alt="Small avatar of AI agent Sentinel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8Kg2dh1WKNn057Hkgue4kCR5QKviZWGRD8af5d33dmecYmXCCRElMY1ioch-RtujBhkddh_Ldc83Me0Fc4H3HBivCWUnHe0aMfwok7EAaXgn53xJ7o8r5T2Tyjqgf9RR5OifpLgTcFU27L-T7q6hYUcaYAaKbEHcwv1vqt3788TQ7CGePznq1QhL_88FwOAE-lKXFC1af-UnMaNWdSw9NlN649JWefe13c-le1qAsN4lhu6UQm15DeXVGCGHxKjlQKcW1iyMsTsQ"/>
+<div class="absolute -bottom-0.5 -right-0.5 size-2.5 bg-amber-500 border-2 border-white dark:border-[#1a2130] rounded-full"></div>
+</div>
+<div>
+<p class="text-xs font-bold">Sentinel</p>
+<p class="text-[10px] text-slate-500">Firewall Monitoring</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

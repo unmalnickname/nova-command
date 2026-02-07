@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command - Activity Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#135bec",
+                        "primary-glow": "#3b82f6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111318",
+                        "panel-dark": "#1a1d24",
+                        "accent-cyan": "#00e5ff",
+                        "accent-purple": "#bd00ff",
+                        "accent-orange": "#ff6b00",
+                    },
+                    fontFamily: {
+                        display: ["Space Grotesk", "sans-serif"],
+                        mono: ["Space Grotesk", "monospace"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px",
+                    },
+                    boxShadow: {
+                        'neon': '0 0 10px rgba(19, 91, 236, 0.5), 0 0 20px rgba(19, 91, 236, 0.3)',
+                        'neon-active': '0 0 15px rgba(0, 229, 255, 0.6), 0 0 30px rgba(0, 229, 255, 0.4)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Space Grotesk", sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111318; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #282e39; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #135bec; 
+        }.timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 24px;
+            width: 2px;
+            background: #282e39;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white h-screen overflow-hidden flex flex-col md:flex-row">
+<div class="md:hidden flex items-center justify-between p-4 bg-[#111318] border-b border-[#282e39]">
+<div class="flex items-center gap-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 h-8" data-alt="Nova Command Logo abstract neon blue" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCupI42AhyYp__aPgdQsqhKXAuMS9_BXgfTRTN2jzZyka-UFbYDbnVFonjxHrweTPNREJ4e7MTrDUQNlvJng1ZyQVZTeSqOaNstSjuoJQwilE6W-NwzxCtvRGy5Krxzi-ZS7OZVJzCH2L36J8nMb8yV7DvN2otupkAuts62Rw01sP8WF3X3wSn0KRdS_Ia8CP-5rjhfJ_K7KKwuOqX91Wh2_8uyWJnXy0fvtIkot5gfTy9WwgQn_TmZqlCUHra3rpGXlkBBvwbCOE0");'></div>
+<span class="font-bold text-lg text-white">Nova Command</span>
+</div>
+<button class="text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<aside class="hidden md:flex flex-col w-72 bg-[#111318] border-r border-[#282e39] h-full flex-shrink-0">
+<div class="p-6 flex flex-col gap-6 h-full">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10 ring-2 ring-primary/50" data-alt="Nova Command Logo abstract neon blue" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDiGr4IFOI3-ZKSbNvwkNi0-WX759bO1IyETb_GQFAmBCmKINSLOgZVksiWA6z_1Fpmz9uBOw9MIAYgSxnpiYSAPnKPGttpEk11EMjzK3B62exR9K-oTSRozfUsXmra4axO4sR8Kh5II49koNRngZCjxmIOqlbhMOaLxted_xWEoYsxL3l_UG0BMgS20PxniyOSuBOiapaTZO3KCbjkY2_p9YMSJwJheonA0VNBzlwO1-3Z1g97Rc6V6Hl6FR6JyiG-3flMPDY5bIw");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-tight">Nova Command</h1>
+<p class="text-[#9da6b9] text-xs font-normal">v2.4.0 <span class="text-green-500">● Online</span></p>
+</div>
+</div>
+<div class="flex flex-col gap-1 flex-1 overflow-y-auto pr-2">
+<div class="text-[#9da6b9] text-xs font-bold uppercase tracking-wider mb-2 px-2">Workspaces</div>
+<div class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-[#282e39] border border-primary/30 shadow-neon cursor-pointer group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-size: 20px;">history</span>
+<p class="text-white text-sm font-bold">Activity Feed</p>
+</div>
+<span class="flex h-2 w-2 rounded-full bg-green-500"></span>
+</div>
+<div class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-[#1a1d24] cursor-pointer group transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9da6b9] group-hover:text-white" style="font-size: 20px;">graphic_eq</span>
+<p class="text-[#9da6b9] group-hover:text-white text-sm font-medium">Voice Operations</p>
+</div>
+</div>
+<div class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-[#1a1d24] cursor-pointer group transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9da6b9] group-hover:text-white" style="font-size: 20px;">smart_toy</span>
+<p class="text-[#9da6b9] group-hover:text-white text-sm font-medium">Agent Management</p>
+</div>
+</div>
+<div class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-[#1a1d24] cursor-pointer group transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9da6b9] group-hover:text-white" style="font-size: 20px;">folder_open</span>
+<p class="text-[#9da6b9] group-hover:text-white text-sm font-medium">Knowledge Base</p>
+</div>
+</div>
+</div>
+<div class="bg-[#1a1d24] p-3 rounded-xl border border-[#282e39] flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-9 h-9" data-alt="Admin user profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBLdtlJx7tRBHOwvGEpjljNGOtwrPU_gXw34H0q5TvBSFj1sbfJFzm_gPXX-NDq_ve6da2PsnsYKlIfIRmmqK1x-552lF0WxwTxf33qdpX7kO9FgyeUPyAx5g98PBhonRPaijTAv030rNYXVNRpIyh1tohJu-QRiTzk6r5gTnfQc2Bl9UPf7vF66dxphDXswkJ4Ff-HNO5tLXE6KAbm566oNc_D8CepYNIZzE6CopirK3YxeWPWAWKAqgtjym73pgbF9d73tYlejfg");'></div>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-[#1a1d24]"></div>
+</div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-bold">Admin</p>
+<p class="text-[#9da6b9] text-[10px]">#8842</p>
+</div>
+</div>
+<div class="flex gap-1">
+<button class="p-1.5 hover:bg-[#282e39] rounded text-white">
+<span class="material-symbols-outlined text-[18px]">mic</span>
+</button>
+<button class="p-1.5 hover:bg-[#282e39] rounded text-white">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+</button>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full relative bg-gradient-to-br from-[#111318] to-[#0d0f14]">
+<header class="h-16 border-b border-[#282e39] flex items-center justify-between px-6 bg-[#111318]/90 backdrop-blur-sm z-20 sticky top-0">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-2xl">history</span>
+<div>
+<h2 class="text-white font-bold text-lg tracking-tight">Activity Feed</h2>
+<div class="flex items-center gap-2 text-xs text-[#9da6b9]">
+<span class="flex items-center gap-1 text-green-400 font-bold animate-pulse" style="text-shadow: 0 0 8px rgba(74, 222, 128, 0.5);">
+<span class="w-2 h-2 rounded-full bg-green-500"></span> LIVE
+                        </span>
+<span>•</span>
+<span>Tracking 4 active agents</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-[#1a1d24] p-1 rounded-lg border border-[#282e39]">
+<button class="px-3 py-1.5 rounded bg-primary text-white text-sm font-medium shadow-neon">All</button>
+<button class="px-3 py-1.5 rounded hover:bg-[#282e39] text-[#9da6b9] hover:text-white text-sm font-medium transition-colors">Tasks</button>
+<button class="px-3 py-1.5 rounded hover:bg-[#282e39] text-[#9da6b9] hover:text-white text-sm font-medium transition-colors">Comments</button>
+<button class="px-3 py-1.5 rounded hover:bg-[#282e39] text-[#9da6b9] hover:text-white text-sm font-medium transition-colors">Documents</button>
+<button class="px-3 py-1.5 rounded hover:bg-[#282e39] text-[#9da6b9] hover:text-white text-sm font-medium transition-colors">Status</button>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#9da6b9] text-[18px]">search</span>
+<input class="bg-[#1a1d24] border border-[#282e39] rounded-lg pl-9 pr-4 py-1.5 text-sm text-white focus:outline-none focus:border-primary placeholder-[#545b6b] w-48 transition-all focus:w-64" placeholder="Search activity..." type="text"/>
+</div>
+<button class="p-2 text-[#9da6b9] hover:text-white border border-[#282e39] rounded-lg bg-[#1a1d24]">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto relative p-8">
+<div class="max-w-4xl mx-auto timeline-line relative pb-20">
+<div class="flex items-center gap-4 mb-8 relative z-10">
+<div class="w-12 flex justify-center">
+<div class="w-2 h-2 bg-primary rounded-full ring-4 ring-[#111318]"></div>
+</div>
+<span class="text-[#9da6b9] text-xs font-bold uppercase tracking-widest">Today</span>
+</div>
+<div class="flex gap-6 mb-6 group relative z-10">
+<div class="w-12 flex-shrink-0 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full border-2 border-accent-cyan p-0.5 bg-[#1a1d24] shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+<img alt="Nova AI" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD71DkOjc3YXLXHC02ZlyV_BGgd_qi7LWtadbRXazfmu3kAVf69W3nAd2my0E0BtrzJDCJ4MbqA8r3X-4bR12wkhGR-g7ekDvr3YckeaxmWISQi7XWZOqhtXleIRAhLGy0FlndWYsH28uzWd4g4_HDzWJgzRC066gj2q9CZkc2B4TxoXmxv0-lCqwE2QRm9pFOPSsTrr4fJBY3ExnrQWzWaMYLyyJRvVUWC0KPL_Ds3NbEJnALW0x-L_JZnsSIuCEs6OIhdfzoNcvM"/>
+</div>
+</div>
+<div class="flex-1 bg-[#1a1d24] border border-[#282e39] rounded-xl p-4 hover:border-accent-cyan/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.1)] transition-all">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="font-bold text-white">Nova AI</span>
+<span class="text-[#545b6b] text-sm">•</span>
+<span class="text-accent-cyan text-xs font-medium px-2 py-0.5 rounded-full bg-accent-cyan/10 border border-accent-cyan/20">Task Update</span>
+</div>
+<span class="text-[#9da6b9] text-xs">2m ago</span>
+</div>
+<p class="text-gray-300 text-sm mb-3">Moved <span class="font-mono text-white bg-[#282e39] px-1 rounded">Auth Logic Fix #402</span> to <span class="text-accent-cyan font-bold">Review</span> stage.</p>
+<div class="flex items-center gap-2">
+<a class="flex items-center gap-1 text-xs text-[#9da6b9] hover:text-white transition-colors bg-[#111318] px-2 py-1 rounded border border-[#282e39]" href="#">
+<span class="material-symbols-outlined text-[14px]">link</span>
+                                View Ticket
+                            </a>
+<div class="flex -space-x-2">
+<img alt="Reviewer" class="w-5 h-5 rounded-full border border-[#1a1d24]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLdtlJx7tRBHOwvGEpjljNGOtwrPU_gXw34H0q5TvBSFj1sbfJFzm_gPXX-NDq_ve6da2PsnsYKlIfIRmmqK1x-552lF0WxwTxf33qdpX7kO9FgyeUPyAx5g98PBhonRPaijTAv030rNYXVNRpIyh1tohJu-QRiTzk6r5gTnfQc2Bl9UPf7vF66dxphDXswkJ4Ff-HNO5tLXE6KAbm566oNc_D8CepYNIZzE6CopirK3YxeWPWAWKAqgtjym73pgbF9d73tYlejfg"/>
+</div>
+</div>
+</div>
+</div>
+<div class="flex gap-6 mb-6 group relative z-10">
+<div class="w-12 flex-shrink-0 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full border-2 border-accent-purple p-0.5 bg-[#1a1d24]">
+<img alt="Codex" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsn5EWNjw3Ph80o1aCQuafu9Tv0-yF_YXpBku1YI5iqGjl9Zi3vyWDZ8T_uiiJtShtx2DEzB1hx-ER1YHK7i7IwPNCfxXPg45EH8okXL3mkmZam5rhb-SNWColkfXn0O_hxrgmCJ--oMrSRdt2_snd4q7a0CteozBxELlaj_xtbupAsfZmzMzYcFOPxXySZpRp1_uprPv6MG4jZRjLBgAJlN3T_Hdb9phBbtOgWGM3OafGA_GE3iJIh5tdB0TJxD9KeAHLyQ465gk"/>
+</div>
+</div>
+<div class="flex-1 bg-[#1a1d24] border border-[#282e39] rounded-xl p-4 hover:border-accent-purple/50 hover:shadow-[0_0_20px_rgba(189,0,255,0.1)] transition-all">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="font-bold text-white">Codex</span>
+<span class="text-[#545b6b] text-sm">•</span>
+<span class="text-accent-purple text-xs font-medium px-2 py-0.5 rounded-full bg-accent-purple/10 border border-accent-purple/20">Code Push</span>
+</div>
+<span class="text-[#9da6b9] text-xs">15m ago</span>
+</div>
+<p class="text-gray-300 text-sm mb-3">Pushed 3 commits to <span class="font-mono text-white">feature/latency-optimization</span>.</p>
+<div class="bg-[#111318] rounded-lg p-3 border border-[#282e39] font-mono text-xs text-[#9da6b9] mb-3">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[14px] text-green-500">add_circle</span>
+<span>Modified server_config.yml</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-red-500">remove_circle</span>
+<span>Removed legacy routing protocols</span>
+</div>
+</div>
+<a class="flex items-center gap-1 text-xs text-primary hover:text-primary-glow transition-colors w-fit" href="#">
+                            View on GitHub <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+</div>
+<div class="flex gap-6 mb-6 group relative z-10">
+<div class="w-12 flex-shrink-0 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full border-2 border-white/20 p-0.5 bg-[#1a1d24]">
+<img alt="Sarah" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9DQl3S-U_90VCP5djMLcpc0kcRlJweXP9f3EiuhBxWBsqQxOSY971Doi2ye41nVQos5sZBHu-G-_3mqhjL7qf2uWvdccyxdOADnX9bmo-peEXa667qE7OFyYB_GIgs2YgtWdG3FJbDOYVlLdymCdZmeWvX2Ax4uiMqjcNIJ0qfuIBqDW8BeWeywxMbGDeSUQ5gQrTjZ9LMr3GXva6m9KA88LpRIBqzQcwlaAolGpZanQaql4_K-u4F7Qw3mxxYXUDvGKvBJndvh4"/>
+</div>
+</div>
+<div class="flex-1 bg-[#1a1d24] border border-[#282e39] rounded-xl p-4 hover:border-white/30 transition-all">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="font-bold text-white">Sarah</span>
+<span class="text-[#545b6b] text-sm">•</span>
+<span class="text-accent-orange text-xs font-medium px-2 py-0.5 rounded-full bg-accent-orange/10 border border-accent-orange/20">Comment</span>
+</div>
+<span class="text-[#9da6b9] text-xs">1h ago</span>
+</div>
+<p class="text-gray-300 text-sm mb-2">Left a comment on <span class="font-mono text-white">Design System v2.0</span> document.</p>
+<div class="pl-3 border-l-2 border-[#282e39] italic text-[#9da6b9] text-sm mb-3">
+                            "The contrast ratio on these primary buttons needs adjustment for dark mode accessibility."
+                        </div>
+<a class="flex items-center gap-1 text-xs text-[#9da6b9] hover:text-white transition-colors bg-[#111318] px-2 py-1 rounded border border-[#282e39] w-fit" href="#">
+<span class="material-symbols-outlined text-[14px]">description</span>
+                            Go to Document
+                        </a>
+</div>
+</div>
+<div class="flex gap-6 mb-6 group relative z-10">
+<div class="w-12 flex-shrink-0 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full border-2 border-accent-cyan p-0.5 bg-[#1a1d24]">
+<img alt="Nova AI" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD71DkOjc3YXLXHC02ZlyV_BGgd_qi7LWtadbRXazfmu3kAVf69W3nAd2my0E0BtrzJDCJ4MbqA8r3X-4bR12wkhGR-g7ekDvr3YckeaxmWISQi7XWZOqhtXleIRAhLGy0FlndWYsH28uzWd4g4_HDzWJgzRC066gj2q9CZkc2B4TxoXmxv0-lCqwE2QRm9pFOPSsTrr4fJBY3ExnrQWzWaMYLyyJRvVUWC0KPL_Ds3NbEJnALW0x-L_JZnsSIuCEs6OIhdfzoNcvM"/>
+</div>
+</div>
+<div class="flex-1 bg-[#1a1d24] border border-[#282e39] rounded-xl p-4 hover:border-accent-cyan/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.1)] transition-all">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="font-bold text-white">Nova AI</span>
+<span class="text-[#545b6b] text-sm">•</span>
+<span class="text-green-500 text-xs font-medium px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20">Status Change</span>
+</div>
+<span class="text-[#9da6b9] text-xs">2h ago</span>
+</div>
+<p class="text-gray-300 text-sm">System status updated to <span class="text-green-500 font-bold">Operational</span> after scheduled maintenance.</p>
+</div>
+</div>
+<div class="flex items-center gap-4 mb-8 mt-12 relative z-10">
+<div class="w-12 flex justify-center">
+<div class="w-2 h-2 bg-[#282e39] rounded-full ring-4 ring-[#111318]"></div>
+</div>
+<span class="text-[#9da6b9] text-xs font-bold uppercase tracking-widest">Yesterday</span>
+</div>
+<div class="flex gap-6 mb-6 group relative z-10">
+<div class="w-12 flex-shrink-0 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full border-2 border-white/20 p-0.5 bg-[#1a1d24]">
+<img alt="Admin" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLdtlJx7tRBHOwvGEpjljNGOtwrPU_gXw34H0q5TvBSFj1sbfJFzm_gPXX-NDq_ve6da2PsnsYKlIfIRmmqK1x-552lF0WxwTxf33qdpX7kO9FgyeUPyAx5g98PBhonRPaijTAv030rNYXVNRpIyh1tohJu-QRiTzk6r5gTnfQc2Bl9UPf7vF66dxphDXswkJ4Ff-HNO5tLXE6KAbm566oNc_D8CepYNIZzE6CopirK3YxeWPWAWKAqgtjym73pgbF9d73tYlejfg"/>
+</div>
+</div>
+<div class="flex-1 bg-[#1a1d24] border border-[#282e39] rounded-xl p-4 opacity-75 hover:opacity-100 transition-all">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="font-bold text-white">Admin</span>
+<span class="text-[#545b6b] text-sm">•</span>
+<span class="text-blue-400 text-xs font-medium px-2 py-0.5 rounded-full bg-blue-400/10 border border-blue-400/20">Document</span>
+</div>
+<span class="text-[#9da6b9] text-xs">1d ago</span>
+</div>
+<p class="text-gray-300 text-sm mb-3">Created new specification <span class="font-mono text-white">Protocol Omega</span>.</p>
+<a class="flex items-center gap-1 text-xs text-[#9da6b9] hover:text-white transition-colors bg-[#111318] px-2 py-1 rounded border border-[#282e39] w-fit" href="#">
+<span class="material-symbols-outlined text-[14px]">article</span>
+                            View Spec
+                        </a>
+</div>
+</div>
+<div class="flex justify-center mt-12 relative z-10 pl-12">
+<button class="bg-[#1a1d24] hover:bg-[#282e39] border border-[#282e39] text-[#9da6b9] hover:text-white px-6 py-3 rounded-lg text-sm font-medium transition-all flex items-center gap-2 group">
+<span class="material-symbols-outlined group-hover:animate-spin">refresh</span>
+                        Load More Activity
+                    </button>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

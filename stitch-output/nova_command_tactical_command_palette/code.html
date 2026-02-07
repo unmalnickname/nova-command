@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nova Command - Tactical Palette</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5966f3",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f0f0f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-border {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+        }
+        .active-glow {
+            box-shadow: 0 0 15px rgba(89, 102, 243, 0.3);
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #282a39;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center font-display antialiased">
+<!-- Mock Background Application Context -->
+<div class="fixed inset-0 z-0 opacity-20 pointer-events-none p-10">
+<div class="grid grid-cols-3 gap-6">
+<div class="h-40 bg-zinc-800 rounded-lg"></div>
+<div class="h-40 bg-zinc-800 rounded-lg"></div>
+<div class="h-40 bg-zinc-800 rounded-lg"></div>
+<div class="h-64 bg-zinc-800 rounded-lg col-span-2"></div>
+<div class="h-64 bg-zinc-800 rounded-lg"></div>
+</div>
+</div>
+<!-- Command Palette Overlay -->
+<div class="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4 bg-black/60 backdrop-blur-sm">
+<!-- Palette Modal -->
+<div class="w-full max-w-[650px] bg-background-dark/95 glass-border rounded-xl shadow-2xl overflow-hidden flex flex-col border border-white/10">
+<!-- Search Input Area -->
+<div class="relative flex items-center px-6 py-5 border-b border-white/10">
+<span class="material-symbols-outlined text-zinc-400 mr-4">search</span>
+<div class="flex-1 relative flex items-center">
+<input autofocus="" class="w-full bg-transparent border-none focus:ring-0 text-white text-lg placeholder-zinc-500 p-0" placeholder="Type a command or search..." type="text"/>
+<!-- Blinking Cursor Emulation -->
+<div class="absolute left-[0px] top-1/2 -translate-y-1/2 h-6 w-[2px] bg-primary cursor-blink pointer-events-none hidden"></div>
+</div>
+<div class="flex items-center gap-1 ml-4">
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-400 rounded text-[10px] font-semibold border border-white/5">ESC</kbd>
+</div>
+</div>
+<!-- Action List -->
+<div class="max-h-[480px] overflow-y-auto py-3">
+<!-- General Section -->
+<div class="px-3 mb-4">
+<h3 class="px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-widest">General</h3>
+<div class="space-y-1">
+<!-- Active Item -->
+<div class="flex items-center justify-between px-4 py-3 bg-primary text-white rounded-lg active-glow cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="size-8 flex items-center justify-center bg-white/20 rounded-md">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+</div>
+<span class="font-medium">Go to Dashboard</span>
+</div>
+<div class="flex gap-1">
+<kbd class="px-2 py-1 bg-white/20 rounded text-xs font-bold">G</kbd>
+<kbd class="px-2 py-1 bg-white/20 rounded text-xs font-bold">D</kbd>
+</div>
+</div>
+<div class="flex items-center justify-between px-4 py-3 text-zinc-300 hover:bg-white/5 rounded-lg cursor-pointer transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-8 flex items-center justify-center bg-zinc-800 rounded-md group-hover:bg-zinc-700">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</div>
+<span class="font-medium">Open Settings</span>
+</div>
+<div class="flex gap-1">
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">S</kbd>
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">,</kbd>
+</div>
+</div>
+</div>
+</div>
+<!-- Agents Section -->
+<div class="px-3 mb-4">
+<h3 class="px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-widest">Agents</h3>
+<div class="space-y-1">
+<div class="flex items-center justify-between px-4 py-3 text-zinc-300 hover:bg-white/5 rounded-lg cursor-pointer transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-8 flex items-center justify-center bg-zinc-800 rounded-md group-hover:bg-zinc-700">
+<span class="material-symbols-outlined text-[20px] text-primary">smart_toy</span>
+</div>
+<span class="font-medium">Summon Friday</span>
+</div>
+<div class="flex gap-1">
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">S</kbd>
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">F</kbd>
+</div>
+</div>
+<div class="flex items-center justify-between px-4 py-3 text-zinc-300 hover:bg-white/5 rounded-lg cursor-pointer transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-8 flex items-center justify-center bg-zinc-800 rounded-md group-hover:bg-zinc-700">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+</div>
+<span class="font-medium">Create New Agent</span>
+</div>
+<div class="flex gap-1">
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">C</kbd>
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">N</kbd>
+</div>
+</div>
+</div>
+</div>
+<!-- Operations Section -->
+<div class="px-3 mb-4">
+<h3 class="px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-widest">Operations</h3>
+<div class="space-y-1">
+<div class="flex items-center justify-between px-4 py-3 text-zinc-300 hover:bg-white/5 rounded-lg cursor-pointer transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-8 flex items-center justify-center bg-zinc-800 rounded-md group-hover:bg-zinc-700">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+<span class="font-medium">Start Daily Standup</span>
+</div>
+<div class="flex gap-1">
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">S</kbd>
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">D</kbd>
+</div>
+</div>
+<div class="flex items-center justify-between px-4 py-3 text-zinc-300 hover:bg-white/5 rounded-lg cursor-pointer transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-8 flex items-center justify-center bg-zinc-800 rounded-md group-hover:bg-zinc-700">
+<span class="material-symbols-outlined text-[20px] text-red-400">rocket_launch</span>
+</div>
+<span class="font-medium">Deploy to Production</span>
+</div>
+<div class="flex gap-1">
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">D</kbd>
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">P</kbd>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Section -->
+<div class="px-3 mb-2">
+<h3 class="px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-widest">Navigation</h3>
+<div class="space-y-1">
+<div class="flex items-center justify-between px-4 py-3 text-zinc-300 hover:bg-white/5 rounded-lg cursor-pointer transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-8 flex items-center justify-center bg-zinc-800 rounded-md group-hover:bg-zinc-700">
+<span class="material-symbols-outlined text-[20px]">view_kanban</span>
+</div>
+<span class="font-medium">Switch to Kanban</span>
+</div>
+<div class="flex gap-1">
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">G</kbd>
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">K</kbd>
+</div>
+</div>
+<div class="flex items-center justify-between px-4 py-3 text-zinc-300 hover:bg-white/5 rounded-lg cursor-pointer transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-8 flex items-center justify-center bg-zinc-800 rounded-md group-hover:bg-zinc-700">
+<span class="material-symbols-outlined text-[20px]">memory</span>
+</div>
+<span class="font-medium">Open Memory</span>
+</div>
+<div class="flex gap-1">
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">G</kbd>
+<kbd class="px-2 py-1 bg-zinc-800 text-zinc-500 rounded text-xs font-bold border border-white/5">M</kbd>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Stats / Help -->
+<div class="px-6 py-4 bg-zinc-900/50 border-t border-white/5 flex items-center justify-between text-zinc-500 text-xs">
+<div class="flex gap-4">
+<span class="flex items-center gap-1">
+<kbd class="px-1.5 py-0.5 bg-zinc-800 rounded text-[10px] font-bold border border-white/5">↑↓</kbd>
+                        to navigate
+                    </span>
+<span class="flex items-center gap-1">
+<kbd class="px-1.5 py-0.5 bg-zinc-800 rounded text-[10px] font-bold border border-white/5">ENTER</kbd>
+                        to select
+                    </span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-1.5 bg-green-500 rounded-full animate-pulse"></div>
+<span>Tactical Link Active</span>
+</div>
+</div>
+</div>
+</div>
+</body></html>
